@@ -21,14 +21,14 @@ public class Gasto extends Registro {
 	//[Atributos]
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* categoria
+	* Almacena la categoría del gasto (ejemplo: "Alimentos y bebidas," "Vivienda," etc.).
 	*/
 	private String categoria;
 	
 	/**
-	* Nombre del atributo
-	* Descripción...
+	* lista_categorias
+	* Una lista de categorías predefinidas para los gastos (ejemplo: "Salud," "Educación," etc.).
 	*/
 	private ArrayList<String> lista_categorias = new ArrayList<String>(Arrays.asList("Alimentos y bebidas","Vivienda","Transporte","Salud","Educación","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"));
 		
@@ -36,11 +36,11 @@ public class Gasto extends Registro {
 	
 	/**
 	* Constructor de la clase Registro.
-	* @param monto - Descripción...
-	* @param descripcion - Descripción...
-	* @param mes - Descripción...
-	* @param year - Descripción...
-	* @param categoria - Descripción...
+	* @param monto - Este atributo almacena el monto asociado al registro financiero. Puede representar un valor monetario en la moneda que desees.
+	* @param descripcion - Almacena una descripción o comentario relacionado con el registro financiero. Puede proporcionar detalles adicionales sobre el ingreso, gasto o ahorro
+	* @param mes - Representa el mes en el que se registra el evento financiero. Puede ser un número entero que corresponda al mes del año
+	* @param year - Almacena el año en el que se registra el evento financiero. Puede ser un número entero que represente el año correspondiente
+	* @param categoria -  El constructor de la clase Registro recibe como parámetros el monto, la descripción, el mes y el año asociados al registro financiero. Estos valores se utilizan para inicializar los atributos de la instancia de registro.
 	*/
 	public Gasto(double monto, String descripcion, int mes, int year, String categoria) {
 		super(monto, descripcion, mes, year);

@@ -18,10 +18,10 @@ public class Ahorro extends Registro {
 	
 	/**
 	* Constructor de la clase Ahorro.
-	* @param monto - Descripción...
-	* @param descripcion - Descripción...
-	* @param mes - Descripción...
-	* @param year - Descripción...
+	* @param monto -  Este atributo almacena el monto asociado al registro financiero. Puede representar un valor monetario en la moneda que desees.
+	* @param descripcion - Almacena una descripción o comentario relacionado con el registro financiero. Puede proporcionar detalles adicionales sobre el ingreso, gasto o ahorro.
+	* @param mes - Representa el mes en el que se registra el evento financiero. Puede ser un número entero que corresponda al mes del año.
+	* @param year - Almacena el año en el que se registra el evento financiero. Puede ser un número entero que represente el año correspondiente.
 	*/
 	public Ahorro(double monto, String descripcion, int mes, int year) {
 		super(monto, descripcion, mes, year);

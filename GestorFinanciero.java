@@ -112,34 +112,38 @@ class GestorFinanciero {
 							System.out.println("Mensaje de confirmacion [Estudiante].");}
 					break;}
 				
-				case 2:{//Acceder a un perfil
-					
-					String codigo_acceso = "";
-					boolean acceder_perfil = true;
-					while(acceder_perfil) {
-						
-						System.out.println("\nACCEDER A UN PERFIL");
-						System.out.println("Ingrese su codigo de identificacion: ");
-						
-						try {codigo_acceso = scanString.nextLine().toUpperCase();}
-						catch(Exception e) {
-							System.out.println("\n**ERROR** El codigo fue ingresado en un formato incorrecto.");
-							scanString.nextLine();
-							continue;}
-						
-						/*
-						 * Aquí se deben verificar que el código esté dentro de la lista de códigos. De momento crearé una simple con un código de prueba.
-						 */
-						
-						List<String> codigos = new ArrayList<>();
-						codigos.add("COD123");
-						
-						if(codigos.contains(codigo_acceso)) {
-							acceder_perfil = false;}
-						
-						else {
-							System.out.println("\nPERFIL NO ENCONTRADO.\nNo hay ningun perfil con el codigo de identificacion ingresado. Verifique que el codigo sea correcto o que su perfil ya exista.");
-							break;}
+				case 2: { // Acceder a un perfil
+                        String codigo_acceso = "";
+                        boolean acceder_perfil = true;
+                        while (acceder_perfil) {
+
+                            System.out.println("\nACCEDER A UN PERFIL");
+                            System.out.println("Ingrese su código de identificación: ");
+
+                            try {
+                                codigo_acceso = scanString.nextLine().toUpperCase();
+                            } catch (Exception e) {
+                                System.out.println("\n**ERROR** El código fue ingresado en un formato incorrecto.");
+                                scanString.nextLine();
+                                continue;
+                            }
+
+                            // Verificar si el código está en la lista de códigos
+                            boolean codigoValido = false;
+                            for (String codigo : codigos) {
+                                if (codigo.equals(codigo_acceso)) {
+                                    codigoValido = true;
+                                    break; // Si se encuentra el código, no es necesario continuar buscando.
+                                }
+                            }
+
+                            if (codigoValido) {
+                                acceder_perfil = false;
+                            } else {
+                                System.out.println(
+                                        "\nPERFIL NO ENCONTRADO.\nNo hay ningún perfil con el código de identificación ingresado. Verifique que el código sea correcto o que su perfil ya exista.");
+                                break;
+                            }
 					}
 					
 					boolean menu_secundario = true;

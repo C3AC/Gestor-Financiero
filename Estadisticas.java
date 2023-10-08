@@ -17,38 +17,38 @@ class Estadisticas {
 	//[Atributos]
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* mes
+	* Almacena el mes para el que se calcularán las estadísticas y gráficas.
 	*/
 	private int mes;
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* year.
+	* Almacena el año correspondiente al mes para el que se calcularán las estadísticas y gráficas.
 	*/
     private int year;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* ingresosTotales
+	* Representa la suma total de ingresos del usuario en el mes y año especificados.
 	*/
     private double ingresosTotales;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* gastosTotales
+	* Representa la suma total de gastos del usuario en el mes y año especificados.
 	*/
     private double gastosTotales;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* ahorrosTotales:
+	* Representa la suma total de ahorros del usuario en el mes y año especificados.
 	*/
     private double ahorrosTotales;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* montoNeto
+	*  Almacena el monto neto calculado, que se obtiene restando los gastos totales y los ahorros totales de los ingresos totales en el mes y año especificados.
 	*/
     private double montoNeto;
     

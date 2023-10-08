@@ -26,8 +26,8 @@ public class ArchivoCSV {
 	//[Atributos]
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* rutaArchivo
+	* Almacena la ruta del archivo CSV con el que se trabajará. Es una cadena de texto (tipo String) que especifica la ubicación del archivo en el sistema de archivos.
 	*/
 	private String rutaArchivo;
 
@@ -35,7 +35,7 @@ public class ArchivoCSV {
 	
 	/**
 	* Constructor de la clase ArchivoCSV.
-	* @param rutaArchivo - Descripción...
+	* @param rutaArchivo - Almacena la ruta del archivo CSV con el que se trabajará. Es una cadena de texto (tipo String) que especifica la ubicación del archivo en el sistema de archivos.
 	*/
     public ArchivoCSV(String rutaArchivo) {
         this.rutaArchivo = rutaArchivo;

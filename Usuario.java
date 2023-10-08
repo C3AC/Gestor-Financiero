@@ -22,50 +22,50 @@ public class Usuario {
 	//[Atributos]
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* nombre
+	* Este atributo almacena el nombre del usuario, es decir, su nombre de pila.
 	*/
 	private String nombre;
 	
 	/**
-	* Nombre del atributo...
-	* Descripción...
+	* apellido
+	*  Almacena el apellido del usuario, que representa su apellido de familia o apellido paterno
 	*/
     private String apellido;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* sexo
+	*  Este atributo almacena el sexo o género del usuario. Puede ser "masculino" o "femenino", o cualquier otra representación que indique el género del usuario.
 	*/
     private String sexo;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* edad:
+	* Almacena la edad del usuario como un valor numérico entero. Representa la edad en años del usuario.
 	*/
     private int edad;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* tipoPerfil
+	* Este atributo almacena el tipo de perfil del usuario, que indica la categoría o rol al que pertenece el usuario. Puede ser "Padre/Madre", "Freelancer", "Estudiante" u otro tipo de perfil que el programa admita.
 	*/
     private String tipoPerfil;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* codigoIdentificacion
+	* Almacena un código único de identificación generado automáticamente para cada usuario. Este código sirve para identificar de manera única a cada usuario dentro del sistema.
 	*/
     private String codigoIdentificacion;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* registros
+	* Es una lista que almacena los registros financieros asociados al usuario. Estos registros pueden incluir ingresos, gastos o ahorros que el usuario haya registrado en su perfil financiero..
 	*/
     private ArrayList<Registro> registros;
     
     /**
-	* Nombre del atributo...
-	* Descripción...
+	* lista_porcentajes
+	* Esta lista se utiliza para almacenar porcentajes de distribución en categorías financieras. Puede ser utilizada para asignar porcentajes a diferentes categorías de gastos o ahorros, dependiendo de la lógica de tu aplicación
 	*/
     private ArrayList<Double> lista_porcentajes;
 
@@ -73,11 +73,11 @@ public class Usuario {
     
     /**
 	* Constructor de la clase Usuario.
-	* @param nombre - Descripción...
-	* @param apellido - Descripción...
-	* @param sexo - Descripción...
-	* @param edad - Descripción...
-	* @param tipo_perfil - Descripción...
+	* @param nombre - Este atributo almacena el nombre del usuario, es decir, su nombre de pila.
+	* @param apellido -  Almacena el apellido del usuario, que representa su apellido de familia o apellido paterno.
+	* @param sexo - : Este atributo almacena el sexo o género del usuario. Puede ser "masculino" o "femenino", o cualquier otra representación que indique el género del usuario..
+	* @param edad - Almacena la edad del usuario como un valor numérico entero. Representa la edad en años del usuario
+	* @param tipo_perfil - Este atributo almacena el tipo de perfil del usuario, que indica la categoría o rol al que pertenece el usuario. Puede ser "Padre/Madre", "Freelancer", "Estudiante" u otro tipo de perfil que el programa admita.
 	*/
     public Usuario(String nombre, String apellido, String sexo, int edad, String tipoPerfil) {
         this.nombre = nombre;
