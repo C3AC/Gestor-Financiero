@@ -72,78 +72,132 @@ class GestorFinanciero {
 						if(tipos_de_perfiles[decision_perfil].equals("Padre/Madre")) {//El tipo de perfil es de padre/madre
 							System.out.println("\nPADRE/MADRE");
 							
-							String nombre,apellido,sexo,tipoPerfil;
+							String nombre,apellido,tipoPerfil,sexo1;
+							boolean sexo;
 							int edad;
 							
 							tipoPerfil = tipos_de_perfiles[decision_perfil];
 							
-							/*
-							 * Aquí se deben registrar los demás datos del perfil e instanciar la clase Usuario.
-							 */
+							System.out.println("Ingrese cada dato requerido seguido de un enter: ");
+							System.out.println("-Nombre");
+							nombre = scanString.nextLine();
+							System.out.println("-Apellido");
+							apellido = scanString.nextLine();
+							System.out.println("-Sexo (M/F)");
+							sexo1 = scanString.nextLine().toLowerCase();
+
+							if (sexo1.equals("m")) {
+								sexo = true;
+							} else if (sexo1.equals("f")) {
+								sexo = false;
+							} else {
+								System.out.println("\n**ERROR** El sexo ingresado no es válido.");
+								continue;
+							}
+							System.out.println("-Edad");
+							edad = scanInt.nextInt();
 							
-							System.out.println("Mensaje de confirmacion [Padre/Madre].");}
-						
-						else if(tipos_de_perfiles[decision_perfil].equals("Freelancer")) {//El tipo de perfil es de freelancer
+							System.out.println("Mensaje de confirmacion [Padre/Madre].");
+
+							Usuario newuser = new Usuario(nombre,apellido,sexo,edad,tipoPerfil);
+						}
+							
+							
+						else if (tipos_de_perfiles[decision_perfil].equals("Freelancer")) {
 							System.out.println("\nFREELANCER");
-							
-							String nombre,apellido,sexo,tipoPerfil;
+							String nombre,apellido,tipoPerfil,sexo1;
+							boolean sexo;
 							int edad;
 							
 							tipoPerfil = tipos_de_perfiles[decision_perfil];
 							
-							/*
-							 * Aquí se deben registrar los demás datos del perfil e instanciar la clase Usuario.
-							 */
+							System.out.println("Ingrese cada dato requerido seguido de un enter: ");
+							System.out.println("-Nombre");
+							nombre = scanString.nextLine();
+							System.out.println("-Apellido");
+							apellido = scanString.nextLine();
+							System.out.println("-Sexo (M/F)");
+							sexo1 = scanString.nextLine().toLowerCase();
+
+							if (sexo1.equals("m")) {
+								sexo = true;
+							} else if (sexo1.equals("f")) {
+								sexo = false;
+							} else {
+								System.out.println("\n**ERROR** El sexo ingresado no es válido.");
+								continue;
+							}
+							System.out.println("-Edad");
+							edad = scanInt.nextInt();
+
+							Usuario newuser = new Usuario(nombre,apellido,sexo,edad,tipoPerfil);
 							
-							System.out.println("Mensaje de confirmacion [Freelancer].");}
+							System.out.println("Mensaje de confirmacion [Freelancer].");
+						}
 						
-						else {//El tipo de perfil es de estudiante
+						else if(tipos_de_perfiles[decision_perfil].equals("Freelancer")) {//El tipo de perfil es de estudiante
 							System.out.println("\nESTUDIANTE");
 							
-							String nombre,apellido,sexo,tipoPerfil;
+							String nombre,apellido,tipoPerfil,sexo1;
+							boolean sexo;
 							int edad;
 							
 							tipoPerfil = tipos_de_perfiles[decision_perfil];
 							
-							/*
-							 * Aquí se deben registrar los demás datos del perfil e instanciar la clase Usuario.
-							 */
+							System.out.println("Ingrese cada dato requerido seguido de un enter: ");
+							System.out.println("-Nombre");
+							nombre = scanString.nextLine();
+							System.out.println("-Apellido");
+							apellido = scanString.nextLine();
+							System.out.println("-Sexo (M/F)");
+							sexo1 = scanString.nextLine().toLowerCase();
+
+							if (sexo1.equals("m")) {
+								sexo = true;
+							} else if (sexo1.equals("f")) {
+								sexo = false;
+							} else {
+								System.out.println("\n**ERROR** El sexo ingresado no es válido.");
+								continue;
+							}
+							System.out.println("-Edad");
+							edad = scanInt.nextInt();
+
+							Usuario newuser = new Usuario(nombre,apellido,sexo,edad,tipoPerfil);
+
 							
-							System.out.println("Mensaje de confirmacion [Estudiante].");}
+							System.out.println("Mensaje de confirmacion [Estudiante].");
+						}
 					break;}
 				
-				case 2: { // Acceder a un perfil
-                        String codigo_acceso = "";
-                        boolean acceder_perfil = true;
-                        while (acceder_perfil) {
-
-                            System.out.println("\nACCEDER A UN PERFIL");
-                            System.out.println("Ingrese su código de identificación: ");
-
-                            try {
-                                codigo_acceso = scanString.nextLine().toUpperCase();
-                            } catch (Exception e) {
-                                System.out.println("\n**ERROR** El código fue ingresado en un formato incorrecto.");
-                                scanString.nextLine();
-                                continue;
-                            }
-
-                            // Verificar si el código está en la lista de códigos
-                            boolean codigoValido = false;
-                            for (String codigo : codigos) {
-                                if (codigo.equals(codigo_acceso)) {
-                                    codigoValido = true;
-                                    break; // Si se encuentra el código, no es necesario continuar buscando.
-                                }
-                            }
-
-                            if (codigoValido) {
-                                acceder_perfil = false;
-                            } else {
-                                System.out.println(
-                                        "\nPERFIL NO ENCONTRADO.\nNo hay ningún perfil con el código de identificación ingresado. Verifique que el código sea correcto o que su perfil ya exista.");
-                                break;
-                            }
+				case 2:{//Acceder a un perfil
+					
+					String codigo_acceso = "";
+					boolean acceder_perfil = true;
+					while(acceder_perfil) {
+						
+						System.out.println("\nACCEDER A UN PERFIL");
+						System.out.println("Ingrese su codigo de identificacion: ");
+						
+						try {codigo_acceso = scanString.nextLine().toUpperCase();}
+						catch(Exception e) {
+							System.out.println("\n**ERROR** El codigo fue ingresado en un formato incorrecto.");
+							scanString.nextLine();
+							continue;}
+						
+						/*
+						 * Aquí se deben verificar que el código esté dentro de la lista de códigos. De momento crearé una simple con un código de prueba.
+						 */
+						
+						List<String> codigos = new ArrayList<>();
+						codigos.add("COD123");
+						
+						if(codigos.contains(codigo_acceso)) {
+							acceder_perfil = false;}
+						
+						else {
+							System.out.println("\nPERFIL NO ENCONTRADO.\nNo hay ningun perfil con el codigo de identificacion ingresado. Verifique que el codigo sea correcto o que su perfil ya exista.");
+							break;}
 					}
 					
 					boolean menu_secundario = true;
@@ -177,9 +231,9 @@ class GestorFinanciero {
 									
 										case 1:{//Registrar nuevo ingreso
 											System.out.println("\nREGISTRAR NUEVO INGRESO");
-											/*
-											 * Aquí se debe realizar el registro del ingreso.
-											 */
+
+
+
 											break;}
 										
 										case 2:{//Ver ingresos
