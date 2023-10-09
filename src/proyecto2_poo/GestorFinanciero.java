@@ -226,21 +226,42 @@ class GestorFinanciero {
 										System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 										scanInt.nextLine();
 										continue;}
+
+									List<Ingreso> ingresos_usuario = new ArrayList<>();
 									
 									switch(decision_ingresos) {
 									
 										case 1:{//Registrar nuevo ingreso
 											System.out.println("\nREGISTRAR NUEVO INGRESO");
-
+											
+											/* 
+											* Esta parte del codigo debe poder preguntarle al usuario información
+											sobre un nuevo ingreso y escribir la información al final del archivo.
+											*/
 
 
 											break;}
 										
 										case 2:{//Ver ingresos
 											System.out.println("\nVER INGRESOS");
+
 											/*
-											 * Aquí se deben mostrar los ingresos.
-											 */
+						 					* Esta parte del codigo debe poder leer el archivo especifico del usuario y
+											agregar los ingresos a la lista de ingresos.
+						 					*/
+											
+											if (ingresos_usuario.isEmpty()) {
+												System.out.println("No hay ingresos registrados.");
+											} 
+											else {
+												System.out.println("Ingresos registrados: ");
+												for (Ingreso ingreso : ingresos_usuario) {
+													System.out.println("$" + ingreso.getMonto());
+													System.out.println("Bajo la descripción de: " + ingreso.getDescripcion());
+													System.out.println("En el mes: " + ingreso.getMes());}
+											}
+											
+
 											break;}
 										
 										case 3:{//Eliminar ingreso

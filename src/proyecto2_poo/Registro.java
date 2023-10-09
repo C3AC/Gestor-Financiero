@@ -56,6 +56,22 @@ abstract class Registro {
 		this.mes = mes;
 		this.year = year;
 	}
+
+	public double getMonto() {
+		return monto;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public int getMes() {
+		return mes;
+	}
+
+	public int getYear() {
+		return year;
+	}
 	
     //[Métodos]
 
