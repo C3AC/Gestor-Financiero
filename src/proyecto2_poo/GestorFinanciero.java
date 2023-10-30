@@ -1,12 +1,13 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 2]
+Proyecto 2: Gestor Financiero [Fase 3]
 Creación: 06 de octubre del 2023
-Última modificación: 08 de octubre del 2023*/
+Última modificación: 05 de noviembre del 2023*/
 
 package proyecto2_poo;
 
+//Importar los paquetes/librerías que harán falta
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

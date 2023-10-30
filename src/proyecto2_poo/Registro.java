@@ -1,9 +1,9 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 2]
+Proyecto 2: Gestor Financiero [Fase 3]
 Creación: 06 de octubre del 2023
-Última modificación: 08 de octubre del 2023*/
+Última modificación: 05 de noviembre del 2023*/
 
 package proyecto2_poo;
 
@@ -17,27 +17,26 @@ abstract class Registro {
 	//[Atributos]
 	
 	/**
-	* monto
-	*  Este atributo almacena el monto asociado al registro financiero. Puede representar un valor monetario en la moneda que desees.
+	* Monto asociado al registro financiero. 
+	* Este atributo representa un valor monetario en quetzales (Q). 
 	*/
 	protected double monto;
 	
 	/**
-	* descripción
-	*  Almacena una descripción o comentario relacionado con el registro financiero. Puede proporcionar detalles adicionales sobre el ingreso, gasto o ahorro.
+	* Descripción o comentario relacionado con el registro financiero. 
+	* Este atributo puede proporcionar detalles adicionales sobre el ingreso, gasto o ahorro.
 	*/
 	protected String descripcion;
 	
 	/**
-	* mes
-	*  Representa el mes en el que se registra el evento financiero. Puede ser un número entero que corresponda al mes del año.
+	* Mes en el que se realiza el registro financiero. 
+	* Se solicitará al usuario que ingrese el mes en formato numérico. 
 	*/
 	protected int mes;
 	
 	/**
-	* year
-	* Almacena el año en el que se registra el evento financiero. Puede ser un número entero que represente el año correspondiente.
-
+	* Año en el que se realiza el registro financiero. 
+	* Se solicitará al usuario que ingrese el año en formato numérico. 
 	*/
 	protected int year;
 
@@ -45,35 +44,44 @@ abstract class Registro {
 	
 	/**
 	* Constructor de la clase Registro.
-	* @param monto - Este atributo almacena el monto asociado al registro financiero. Puede representar un valor monetario en la moneda que desees.
-	* @param descripcion - Almacena una descripción o comentario relacionado con el registro financiero. Puede proporcionar detalles adicionales sobre el ingreso, gasto o ahorro.
-	* @param mes - Representa el mes en el que se registra el evento financiero. Puede ser un número entero que corresponda al mes del año.
-	* @param year - Almacena el año en el que se registra el evento financiero. Puede ser un número entero que represente el año correspondiente.
+	* @param monto El monto asociado al registro financiero. 
+	* @param descripcion La descripción o comentario relacionado con el registro financiero. 
+	* @param mes El mes en el que se realiza el registro financiero. 
+	* @param year El año en el que se realiza el registro financiero. 
 	*/
 	public Registro(double monto, String descripcion, int mes, int year) {
 		this.monto = monto;
 		this.descripcion = descripcion;
 		this.mes = mes;
-		this.year = year;
-	}
-
-	public double getMonto() {
-		return monto;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public int getMes() {
-		return mes;
-	}
-
-	public int getYear() {
-		return year;
-	}
+		this.year = year;}
 	
     //[Métodos]
 
-	//Aquí estarán el resto de sus métodos...
+	/**
+	 * Obtiene el monto asociado al registro financiero. 
+	 * @return El monto asociado al registro financiero. 
+	 */
+	public double getMonto() {
+		return monto;}
+
+	/**
+	 * Obtiene la descripción o comentario relacionado con el registro financiero. 
+	 * @return La descripción o comentario relacionado con el registro financiero. 
+	 */
+	public String getDescripcion() {
+		return descripcion;}
+
+	/**
+	 * Obtiene el mes en el que se realiza el registro financiero. 
+	 * @return El mes en el que se realiza el registro financiero. 
+	 */
+	public int getMes() {
+		return mes;}
+
+	/**
+	 * Obtiene el año en el que se realiza el registro financiero. 
+	 * @return El año en el que se realiza el registro financiero. 
+	 */
+	public int getYear() {
+		return year;}
 }
