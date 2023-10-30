@@ -1,9 +1,9 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 2]
+Proyecto 2: Gestor Financiero [Fase 3]
 Creación: 06 de octubre del 2023
-Última modificación: 08 de octubre del 2023*/
+Última modificación: 05 de noviembre del 2023*/
 
 package proyecto2_poo;
 
@@ -17,38 +17,42 @@ class Estadisticas {
 	//[Atributos]
 	
 	/**
-	* mes
-	* Almacena el mes para el que se calcularán las estadísticas y gráficas.
+	* Mes para el que se calcularán las estadísticas y gráficas. 
+	* Se solicitará al usuario que ingrese el mes en formato numérico. 
 	*/
 	private int mes;
 	
 	/**
-	* year.
-	* Almacena el año correspondiente al mes para el que se calcularán las estadísticas y gráficas.
+	* Año del mes para el que se calcularán las estadísticas y gráficas. 
+	* Se solicitará al usuario que ingrese el año en formato numérico. 
 	*/
     private int year;
     
     /**
-	* ingresosTotales
-	* Representa la suma total de ingresos del usuario en el mes y año especificados.
+	* Ingresos totales.
+	* Es la suma total de los ingresos del usuario en el mes y año especificados.
+	* Este atributo representa un valor monetario en quetzales (Q). 
 	*/
     private double ingresosTotales;
     
     /**
-	* gastosTotales
-	* Representa la suma total de gastos del usuario en el mes y año especificados.
+	* Gastos totales.
+	* Es la suma total de los gastos del usuario en el mes y año especificados.
+	* Este atributo representa un valor monetario en quetzales (Q). 
 	*/
     private double gastosTotales;
     
     /**
-	* ahorrosTotales:
-	* Representa la suma total de ahorros del usuario en el mes y año especificados.
+	* Ahorros totales.
+	* Es la suma total de ahorros del usuario en el mes y año especificados.
+	* Este atributo representa un valor monetario en quetzales (Q). 
 	*/
     private double ahorrosTotales;
     
     /**
-	* montoNeto
-	*  Almacena el monto neto calculado, que se obtiene restando los gastos totales y los ahorros totales de los ingresos totales en el mes y año especificados.
+	* Monto neto. 
+	* Este valor se obtiene restando los gastos totales de los ingresos y los ahorros totales en el mes y año especificados.
+	* Este atributo representa un valor monetario en quetzales (Q). 
 	*/
     private double montoNeto;
     
@@ -56,39 +60,36 @@ class Estadisticas {
     
     /**
 	* Constructor de la clase Estadisticas.
-	* @param codigoIdentificacion - Descripción...
+	* @param codigoIdentificacion Código de identificación (ID) del usuario.
 	*/
     public Estadisticas(String codigoIdentificacion) {
     	 /*
          * Aquí se debe programar este método.
-         */
-    }
+         */}
     
     //[Métodos]
 
     /**
-	* Cálculo del monto neto (ingresos+gastos-ahorros) del mes especificado.
-	* @param mes - Mes del que se desea calcular el monto neto.
-	* @param year - Año del mes del que se calculará el monto neto.
-	* @return montoNeto - Monto neto para el mes ingresado por el usuario.
+	* Cálculo del monto neto del mes y año especificados.
+	* @param mes El mes del que se desea calcular el monto neto.
+	* @param year El año del mes del que se calculará el monto neto.
+	* @return El monto neto para el mes ingresado por el usuario (en Q).
 	*/
     public double calcularMontoNeto(int mes, int year) {
     	double montoNeto = 0.0;
 	    /*
          * Aquí se debe programar este método.
          */
-	    return montoNeto;
-    }
+	    return montoNeto;}
     
     /**
 	* Generador de la estadísticas y gráficas que se mostrarán al usuario.
-	* @return void - Este método no devuelde nada
+	* @return Este método no devuelde nada
 	*/
     public void mostrarEstadisticas() {
     	 /*
          * Aquí se debe programar este método.
-         */
-    }
+         */}
     
     //Aquí estarán el resto de sus métodos...
 }
