@@ -22,11 +22,9 @@ public class Ingreso extends Registro {
 	* @param descripcion La descripción o comentario relacionado con el ingreso. 
 	* @param mes El mes en el que se registra el ingreso. 
 	* @param year El año en el que se registra el ingreso. 
+	* @param tipo_registro El tipo de registro. 
 	*/
-	public Ingreso(double monto, String descripcion, int mes, int year) {
-		super(monto, descripcion, mes, year);}
+	public Ingreso(double monto, String descripcion, int mes, int year, String tipo_registro) {
+		super(monto, descripcion, mes, year,tipo_registro);}
 	
-	//[Métodos]
-
-    //Aquí estarán sus métodos específicos...
 }
