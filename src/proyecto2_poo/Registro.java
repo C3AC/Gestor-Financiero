@@ -39,6 +39,12 @@ abstract class Registro {
 	* Se solicitará al usuario que ingrese el año en formato numérico. 
 	*/
 	protected int year;
+	
+	/**
+	* Tipo de registro.
+	* Hay 3 tipos de registro posibles: Gasto, Ingreso y Ahorro.
+	*/
+	protected String tipo_registro;
 
     //[Constructor]
 	
@@ -48,12 +54,14 @@ abstract class Registro {
 	* @param descripcion La descripción o comentario relacionado con el registro financiero. 
 	* @param mes El mes en el que se realiza el registro financiero. 
 	* @param year El año en el que se realiza el registro financiero. 
+	* @param tipo_registro El tipo de registro.
 	*/
-	public Registro(double monto, String descripcion, int mes, int year) {
+	public Registro(double monto, String descripcion, int mes, int year, String tipo_registro) {
 		this.monto = monto;
 		this.descripcion = descripcion;
 		this.mes = mes;
-		this.year = year;}
+		this.year = year;
+		this.tipo_registro = tipo_registro;}
 	
     //[Métodos]
 
@@ -84,4 +92,12 @@ abstract class Registro {
 	 */
 	public int getYear() {
 		return year;}
+
+	/**
+	 * Obtiene el tipo de registro. 
+	 * @return El tipo de registro. 
+	 */
+	public String getTipo_registro() {
+		return tipo_registro;}
+	
 }

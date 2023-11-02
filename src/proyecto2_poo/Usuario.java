@@ -21,6 +21,12 @@ public class Usuario {
     
 	//[Atributos]
 	
+    /**
+	* Código de identificación (ID) del usuario.
+	* Este código de 6 dígitos sirve para identificar de manera única a cada usuario dentro del sistema.
+	*/
+    private String codigoIdentificacion;
+	
 	/**
 	* Nombre del usuario.
 	*/
@@ -35,7 +41,7 @@ public class Usuario {
 	* Sexo del usuario.
 	*  Este atributo almacena el sexo del usuario. Las opciones disponibles son: Masculino ("m") y Femenino ("f").
 	*/
-    private Boolean sexo;
+    private String sexo;
     
     /**
 	* Edad del usuario.
@@ -47,22 +53,16 @@ public class Usuario {
 	* Tipo de perfil del usuario.
 	* Este atributo indica la categoría o rol al que pertenece el usuario. Las opciones disponibles son: "Padre/Madre", "Freelancer", "Estudiante".
 	*/
-    private String tipoPerfil;
+    private String tipo_perfil;
     
     /**
-	* Código de identificación (ID) del usuario.
-	* Este código sirve para identificar de manera única a cada usuario dentro del sistema.
-	*/
-    private String codigoIdentificacion;
-    
-    /**
-	* Registros financieros del usuario. 
+	* Lista de registros financieros del usuario. 
 	* Esta lista almacena registros financieros asociados al usuario. Estos registros pueden incluir ingresos, gastos o ahorros que el usuario haya registrado en su perfil.
 	*/
     private ArrayList<Registro> registros;
     
     /**
-	* Porcentajes de categorías. 
+	* Lista de distribución de porcentajes de categorías. 
 	* Esta lista se utiliará para almacenar los porcentajes que le asignó el usuario a cada categoría. 
 	*/
     private ArrayList<Double> lista_porcentajes;
@@ -77,26 +77,17 @@ public class Usuario {
 	* @param edad La edad del usuario.
 	* @param tipo_perfil El tipo de perfil del usuario.
 	*/
-    public Usuario(String nombre, String apellido, Boolean sexo, int edad, String tipoPerfil) {
+    public Usuario(String id, String nombre, String apellido, String sexo, int edad, String tipo_perfil) {
+        this.codigoIdentificacion = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
         this.edad = edad;
-        this.tipoPerfil = tipoPerfil;
-        this.codigoIdentificacion = generarCodigo();
-        this.registros = new ArrayList<>();
-        this.lista_porcentajes = new ArrayList<>(Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0));}
+        this.tipo_perfil = tipo_perfil;
+        this.registros = new ArrayList<Registro>();
+        this.lista_porcentajes = new ArrayList<Double>(Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0));}
 
     //[Métodos]
-
-    /**
-	* Generador del código único de identificación.
-	* @return El código único de identificación del usuario.
-	*/
-    private String generarCodigo() {
-        //Generación del código único de identificación
-        String codigo = "COD" + hashCode();
-    	return codigo;}
 
     /**
 	* Agregar un nuevo registro al usuario.
@@ -130,8 +121,45 @@ public class Usuario {
    	* @param porcentaje Nuevo porcentaje para dicha categoría.
    	* @return Este método no devuelve nada
    	*/
-       public void distribuirPorcentajes(String categoria, double porcentaje) {
-           /*
-            * Aquí se debe programar este método.
-            */}
+    public void distribuirPorcentajes(String categoria, double porcentaje) {
+    	/*
+         * Aquí se debe programar este método.
+         */}
+
+    /**
+	 * Obtiene el código de identificación (ID) del usuario.
+	 * @return El código de identificación (ID) del usuario.
+	 */
+	public String getCodigoIdentificacion() {
+		return codigoIdentificacion;}
+
+	/**
+	 * Obtiene el nombre completo del ususario (nombre y apellido separados por un espacio). 
+	 * @return El nombre completo del usuario.
+	 */
+	public String getNombre_completo() {
+		return nombre + " " + apellido;}
+	
+	/**
+	 * Obtiene el tipo de perfil del usuario.
+	 * @return El tipo de perfil del usuario.
+	 */
+	public String getTipo_perfil() {
+		return tipo_perfil;}
+
+	/**
+	 * Obtiene la lista de registros financieros del usuario.
+	 * @return La lista de registros financieros del usuario.
+	 */
+	public ArrayList<Registro> getRegistros() {
+		return registros;}
+
+	/**
+	 * Modifica la lista de registros financieros del usuario.
+	 * @param registros La nueva lista de registros financieros para el usuario.
+	 * @return Este método no devuelve nada.
+	 */
+	public void setRegistros(ArrayList<Registro> registros) {
+		this.registros = registros;}
+
 }

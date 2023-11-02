@@ -22,15 +22,9 @@ public class Gasto extends Registro {
 	
 	/**
 	* Categoría a la que pertenece el gasto. 
-	* Estas categorías ya están establecidas en la lista que también es atributo de esta clase. 
+	* Hay 9 categorías (las cuales engloban todos los gastos posibles) que ya están establecidas y se le enlistarán al usuario.
 	*/
 	private String categoria;
-	
-	/**
-	* Lista de categorías. 
-	* Esta lista contiene las 9 categorías predefinidas para los gastos.
-	*/
-	private final ArrayList<String> lista_categorias = new ArrayList<String>(Arrays.asList("Alimentos y bebidas","Vivienda","Transporte","Salud","Educación","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"));
 		
 	//[Constructor]
 	
@@ -40,13 +34,20 @@ public class Gasto extends Registro {
 	* @param descripcion La descripción o comentario relacionado con el gasto. 
 	* @param mes El mes en el que se registra el gasto. 
 	* @param year El año en el que se registra el gasto. 
+	* @param tipo_registro El tipo de registro. 
 	* @param categoria La categoría a la que pertenece el gasto. 
 	*/
-	public Gasto(double monto, String descripcion, int mes, int year, String categoria) {
-		super(monto, descripcion, mes, year);
+	public Gasto(double monto, String descripcion, int mes, int year, String tipo_registro, String categoria) {
+		super(monto, descripcion, mes, year, tipo_registro);
 		this.categoria = categoria;}
-	
-	//[Métodos]
 
-    //Aquí estarán sus métodos específicos...
+	//[Métodos]
+	
+	/**
+	 * Obtiene la categoría a la que pertenece el gasto. 
+	 * @return La categoría a la que pertenece el gasto. 
+	 */
+	public String getCategoria() {
+		return categoria;}
+
 }

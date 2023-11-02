@@ -22,11 +22,9 @@ public class Ahorro extends Registro {
 	* @param descripcion La descripción o comentario relacionado con el ahorro. 
 	* @param mes El mes en el que se registra el ahorro. 
 	* @param year El año en el que se registra el ahorro. 
+	* @param tipo_registro El tipo de registro. 
 	*/
-	public Ahorro(double monto, String descripcion, int mes, int year) {
-		super(monto, descripcion, mes, year);}
+	public Ahorro(double monto, String descripcion, int mes, int year, String tipo_registro) {
+		super(monto, descripcion, mes, year, tipo_registro);}
 	
-	//[Métodos]
-
-    //Aquí estarán sus métodos específicos...
 }
