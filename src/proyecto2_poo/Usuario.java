@@ -64,11 +64,15 @@ public class Usuario {
 	* Lista de distribución de porcentajes de categorías. 
 	* Esta lista se utiliará para almacenar los porcentajes que le asignó el usuario a cada categoría. 
 	*/
-    private ArrayList<Double> lista_porcentajes;
+    public ArrayList<Double> lista_porcentajes;
 
     //[Constructor]
     
-    /**
+    public void setLista_porcentajes(ArrayList<Double> lista_porcentajes) {
+		this.lista_porcentajes = lista_porcentajes;
+	}
+
+	/**
 	* Constructor de la clase Usuario.
 	* @param nombre El nombre del usuario.
 	* @param apellido El apellido del usuario.
@@ -150,7 +154,8 @@ public class Usuario {
 	 * @return La lista de distribución de porcentajes de categorías. 
 	 */
 	public ArrayList<Double> getLista_porcentajes() {
-		return lista_porcentajes;}
+		return lista_porcentajes;
+	}
 
 	/**
 	 * Modifica la lista de registros financieros del usuario.
@@ -158,6 +163,58 @@ public class Usuario {
 	 * @return Este método no devuelve nada.
 	 */
 	public void setRegistros(ArrayList<Registro> registros) {
-		this.registros = registros;}
+		this.registros = registros;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public int getEdad() {
+		return edad;
+	}
 	
+	public double getPorcentajeAlimentosYBebidas() {
+		return this.lista_porcentajes.get(0);
+	}
+
+	public double getPorcentajeVivienda() {
+		return this.lista_porcentajes.get(1);
+	}
+
+	public double getPorcentajeTransporte() {
+		return this.lista_porcentajes.get(2);
+	}
+
+	public double getPorcentajeSalud() {
+		return this.lista_porcentajes.get(3);
+	}
+
+	public double getPorcentajeEducacion() {
+		return this.lista_porcentajes.get(4);
+	}
+
+	public double getPorcentajeEntretenimiento() {
+		return this.lista_porcentajes.get(5);
+	}
+
+	public double getPorcentajeRopaYCalzado() {
+		return this.lista_porcentajes.get(6);
+	}
+
+	public double getPorcentajeComunicaciones() {
+		return this.lista_porcentajes.get(7);
+	}
+
+	public double getPorcentajeOtros() {
+		return this.lista_porcentajes.get(8);
+	}
 }

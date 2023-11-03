@@ -7,10 +7,12 @@ Creación: 06 de octubre del 2023
 
 package proyecto2_poo;
 
-//Importar los paquetes/librerías que harán falta
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 /**
 * Esta clase es el driver program. Es decir, la clase que conectará todas las demás clases y hará funcionar el gestor financiero.
 * @author Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy
@@ -27,10 +29,12 @@ class GestorFinanciero {
 	public static void main(String[] args) {
 		
 		//Lista en la que se almacenarán los usuarios del programa
-		ArrayList<Usuario> lista_usuarios = new ArrayList <Usuario>();
-		
-		//Lista en la que se almacenarán los códigos de identificación del programa
-		ArrayList<String> lista_ids = new ArrayList <String>();
+		ArrayList<Usuario> lista_usuarios = new ArrayList<Usuario>();
+		lista_usuarios = cargarUsuariosDesdeCSV();
+		ArrayList<String> lista_ids = new ArrayList<String>();
+		lista_ids = extraerIDsDesdeUsuarios(lista_usuarios);
+
+
 		
 		//Crear los scanners que registrarán los datos ingresados por el ususario
 		Scanner scanInt = new Scanner(System.in);
@@ -56,7 +60,8 @@ class GestorFinanciero {
 				case 1:{//Crear un perfil
 					System.out.println("\n----------------------------CREAR UN PERFIL----------------------------");
 					crearPerfil(lista_usuarios,lista_ids,scanString,scanInt);
-					break;}
+					break;
+				}
 				
 				case 2:{//Acceder a un perfil
 					System.out.println("\n---------------------------ACCEDER A UN PERFIL---------------------------");
@@ -64,19 +69,28 @@ class GestorFinanciero {
 						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble);}
 					else {
 						System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun usuario registrado en el gestor financiero.");}
-					break;}
+					break;
+				}
 				
 				case 3:{//Salir del programa
 					//Terminar el bucle del menú principal
 					menu_principal = false;
 					//Mostrar al ususario que ha abandonado el programa
 					System.out.println("\nHa abandonado el programa exitosamente.");
-					//Cerrar todos los scanners
+					//Cerrar todos los scanner
+					scanDouble.close();
+					scanString.close();
 					scanInt.close();
-					break;}
+					// Guardar información de los nuevos usuarios añadidos
+					break;
+				}
 				
 				default:{//Opción no disponible (programación defensiva)
-					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}
+					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Genera un código de identificacion (ID) de 6 dígitos para el usuario y verifica que no esté repetido.
@@ -102,7 +116,8 @@ class GestorFinanciero {
 			if(contador==lista_usuarios.size()) {//Si el contador tiene la misma cantidad de elementos que la lista de tickets (ya que se sumó 1 por cada ticket con ID diferente)
 				validar_id = false;}}//Salir del ciclo
 		
-		return id_string;}
+		return id_string;
+	}
 	
 	/**
 	 * Registro de datos y creación de perfil.
@@ -115,26 +130,33 @@ class GestorFinanciero {
 	public static void crearPerfil(ArrayList<Usuario> lista_usuarios, ArrayList<String> lista_ids, Scanner scanString, Scanner scanInt) {
 		
 		//Tipos de perfiles disponibles
-		String [] tipos_de_perfiles = {"Padre/Madre","Freelancer","Estudiante"};
+		String [] tipos_de_perfiles = {
+			"Padre/Madre","Freelancer","Estudiante"
+	};
 
 		int decision_perfil = 0;
 	    boolean seleccion_perfil = true;
 	    while(seleccion_perfil) {
 	        System.out.println("\nSeleccione el numero correspondiente a su categoria de perfil: ");
 	        for(int i=0;i<tipos_de_perfiles.length;i++) {
-	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);}
+	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);
+			}
 	        
 	        try {decision_perfil = scanInt.nextInt()-1;} 
 	        catch(Exception e) {
 	            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 	            scanInt.nextLine();
-	            continue;}
+	            continue;
+			}
 	        
 	        if((decision_perfil>=0)&&(decision_perfil<tipos_de_perfiles.length)) {
-	            seleccion_perfil = false;} 
+	            seleccion_perfil = false;
+			} 
 	        
 	        else {
-	            System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");}}
+	            System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");
+			}
+		}
 	    
 	    if(tipos_de_perfiles[decision_perfil].equals("Padre/Madre")) {//El tipo de perfil es de Padre/Madre
 	        
@@ -158,10 +180,13 @@ class GestorFinanciero {
 				if(nombre_completo_usuario.length==2) {//Si el nombre ingresado tiene 2 palabras
 					validar_nombre = false;//Salir del ciclo
 					nombre = nombre_completo_usuario[0];
-					apellido = nombre_completo_usuario[1];}
+					apellido = nombre_completo_usuario[1];
+				}
 				
 				else {//Solicitar que lo vuelva a introducir
-					System.out.println("**ERROR** Ingrese sus datos en el formato solicitado.\n");}}
+					System.out.println("**ERROR** Ingrese sus datos en el formato solicitado.\n");
+				}
+			}
 	        
 			//Ciclo para validar el sexo del usuario
 	        boolean validar_sexo = true;
@@ -173,7 +198,9 @@ class GestorFinanciero {
 					validar_sexo = false;}//Salir del ciclo}
 				
 				else {//Solicitar que lo vuelva a introducir
-					System.out.println("**ERROR** El sexo ingresado no es valido.\n");}}
+					System.out.println("**ERROR** El sexo ingresado no es valido.\n");
+				}
+			}
 			
 			//Iniciar ciclo para el try-catch de la edad del ususario
 			boolean validar_edad = true;
@@ -184,13 +211,17 @@ class GestorFinanciero {
 				catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
 					System.out.println("**ERROR** La edad debe ser un dato numerico entero.\n");
 					scanInt.nextLine();
-					continue;}
+					continue;
+				}
 				
 				if(edad<=0) {//Si la edad ingresada es menor o igual a 0
-					System.out.println("**ERROR** La edad no puede ser menor o igual a 0.\n");}
+					System.out.println("**ERROR** La edad no puede ser menor o igual a 0.\n");
+				}
 				
 				else {//Salir del ciclo
-					validar_edad = false;}}
+					validar_edad = false;
+				}
+			}
 			
 			tipo_perfil = tipos_de_perfiles[decision_perfil];
 	        
@@ -1044,7 +1075,8 @@ class GestorFinanciero {
 							else {//Si el usuario elige una opción que no está entre las opciones
 								System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");}}}
 		                
-	                break;}
+	                break;
+				}
 	            
 	            case 4:{//Regresar
 	            	
@@ -1063,6 +1095,100 @@ class GestorFinanciero {
 	                break;}
 	            
 	            default:{//Opción no disponible (programación defensiva)
-	                System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}
-	
+	                System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
+				}
+			}
+		}
 	}
+
+
+	public static void guardarUsuariosEnCSV(ArrayList<Usuario> lista_usuarios) {
+		String filename = "usuarios.csv";
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(filename);
+			fileWriter.append("CodigoIdentificacion,Nombre,Apellido,Sexo,Edad,TipoPerfil\n");
+			for (Usuario usuario : lista_usuarios) {
+				fileWriter.append(usuario.getCodigoIdentificacion());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getNombre());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getApellido());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getSexo());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getEdad()));
+				fileWriter.append(",");
+				fileWriter.append(usuario.getTipo_perfil());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeAlimentosYBebidas()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeVivienda()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeTransporte()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeSalud()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeEducacion()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeEntretenimiento()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeRopaYCalzado()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeComunicaciones()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeOtros()));
+				fileWriter.append("\n");
+			}
+		} catch (IOException e) {
+			System.out.println("Error al escribir en el archivo CSV.");
+		} finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();
+			} catch (IOException e) {
+				System.out.println("Error al cerrar el FileWriter.");
+			}
+		}
+	}
+
+	public static ArrayList<Usuario> cargarUsuariosDesdeCSV() {
+		String filename = "usuarios.csv";
+		ArrayList<Usuario> lista_usuarios = new ArrayList<>();
+		BufferedReader fileReader = null;
+		try {
+			String line = "";
+			fileReader = new BufferedReader(new FileReader(filename));
+			fileReader.readLine();
+			while ((line = fileReader.readLine()) != null) {
+				String[] data = line.split(",");
+				Usuario usuario = new Usuario(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5]);
+				ArrayList<Double> lista_porcentajes = new ArrayList<>();
+				for (int i = 6; i < 15; i++) {
+					lista_porcentajes.add(Double.parseDouble(data[i]));
+				}
+				usuario.setLista_porcentajes(lista_porcentajes);
+				lista_usuarios.add(usuario);
+			}
+		} catch (IOException e) {
+			System.out.println("Error al leer el archivo CSV.");
+		} finally {
+			try {
+				if (fileReader != null) {
+					fileReader.close();
+				}
+			} catch (IOException e) {
+				System.out.println("Error al cerrar el FileReader.");
+			}
+		}
+		return lista_usuarios;
+	}
+
+	public static ArrayList<String> extraerIDsDesdeUsuarios(ArrayList<Usuario> lista_usuarios) {
+		ArrayList<String> lista_ids = new ArrayList<>();
+		for (Usuario usuario : lista_usuarios) {
+			lista_ids.add(usuario.getCodigoIdentificacion());
+		}
+		return lista_ids;
+	}
+}
