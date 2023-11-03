@@ -194,7 +194,7 @@ class GestorFinanciero {
 			
 			tipo_perfil = tipos_de_perfiles[decision_perfil];
 	        
-	        //Instanciar el perfil y agregarlo a la lista de ususarios (también agregar su código de la lista de códigos).
+			//Instanciar el perfil y agregarlo a la lista de ususarios (también agregar su código de la lista de códigos).
 	        Usuario nuevo_usuario = new Usuario(id,nombre,apellido,sexo,edad,tipo_perfil);
 	        lista_usuarios.add(nuevo_usuario);
 	        lista_ids.add(id);
@@ -260,7 +260,7 @@ class GestorFinanciero {
 					validar_edad = false;}}
 			
 			tipo_perfil = tipos_de_perfiles[decision_perfil];
-	        
+			
 	        //Instanciar el perfil y agregarlo a la lista de ususarios (también agregar su código de la lista de códigos).
 	        Usuario nuevo_usuario = new Usuario(id,nombre,apellido,sexo,edad,tipo_perfil);
 	        lista_usuarios.add(nuevo_usuario);
@@ -328,7 +328,7 @@ class GestorFinanciero {
 			
 			tipo_perfil = tipos_de_perfiles[decision_perfil];
 	        
-	        //Instanciar el perfil y agregarlo a la lista de ususarios (también agregar su código de la lista de códigos).
+			//Instanciar el perfil y agregarlo a la lista de ususarios (también agregar su código de la lista de códigos).
 	        Usuario nuevo_usuario = new Usuario(id,nombre,apellido,sexo,edad,tipo_perfil);
 	        lista_usuarios.add(nuevo_usuario);
 	        lista_ids.add(id);
@@ -630,7 +630,7 @@ class GestorFinanciero {
 		boolean menu_gastos = true;
 	    while(menu_gastos) {
 	        System.out.println("\n--------------------------------GASTOS--------------------------------");
-	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Distributir porcentajes. \n2. Registrar nuevo gasto. \n3. Ver gastos.\n4. Eliminar gasto.\n5. Regresar.");
+	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Distributir porcentajes. \n2. Ver distribucion de porcentajes. \n3. Registrar nuevo gasto. \n4. Ver gastos.\n5. Eliminar gasto.\n6. Regresar.");
 	        
 	        int decision_gastos;
 	        try {decision_gastos = scanInt.nextInt();} 
@@ -642,13 +642,71 @@ class GestorFinanciero {
 	        switch(decision_gastos) 
 	        {
 		        case 1:{//Distribuir porcentajes
-		        	/*
-		        	 * Aun falta programar esta función.
-		        	 */
+		        	
+		        	System.out.println("\n-------------------------DISTRIBUIR PORCENTAJES-------------------------");
+		        	
+		        	System.out.println("\n[Aclaraciones importantes]\nI. A continuacion, se le enlistaran las 9 categorias disponibles para que les \nasigne el porcentaje de su presupuesto que desea gastar en cada una de ellas.\n\nII. Si alguna categoria no le interesa, puede colocarle '0' como porcentaje.\n\nIII. El total de los 9 porcentajes asignados debera ser 100%; si llega a este \nlimite, se asignara automaticamente 0% a las categorias restantes.");
+		        	
+		        	double porcentaje_restante = 100;
+		        	int contador = 0;
+		        	
+		        	System.out.println("\n\n[Distribucion de porcentajes]");
+		        	while((porcentaje_restante>0)&&(contador<8)) {
+		        		
+		        		double porcentaje_ingresado;
+
+		        		//Iniciar ciclo para el try-catch y la validación del porcentaje
+						boolean validar_porcentaje = true;
+						while(validar_porcentaje) {
+							try {System.out.println("\n{Porcentaje restante: " + porcentaje_restante + "%}");
+								System.out.println("Ingrese el porcentaje (%) que desea agregarle a la categoria '" + lista_categorias[contador] + "': ");
+								porcentaje_ingresado = scanDouble.nextDouble();}
+							
+							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
+								System.out.println("**ERROR** El porcentaje debe ser un dato numerico.\n");
+								scanDouble.nextLine();
+								continue;}
+							
+							if((porcentaje_ingresado<0)||(porcentaje_ingresado>porcentaje_restante)) {//Si el porcentaje ingresado es menor a 0 o mayor al porcentaje restante
+								System.out.println("**ERROR** El porcentaje ingresado no es valido (debe estar entre 0% y "+ porcentaje_restante + "%).\n");}
+							
+							else if(porcentaje_restante>=porcentaje_ingresado) {
+								//Establecer el porcentaje para el usuario
+								usuario_activo.distribuirPorcentajes(lista_categorias[contador],porcentaje_ingresado);
+								porcentaje_restante -= porcentaje_ingresado;
+								//Salir del ciclo
+								validar_porcentaje = false;}}
+						
+						contador++;}
+		        	
+		        	if((porcentaje_restante==0)&&(contador==8)) {
+		        		System.out.println("\nPORCENTAJES DISTRIBUIDOS. \nSe ha actualizado la distribucion de porcentajes exitosamente.");}
+		        	
+		        	else if((porcentaje_restante==0)&&(contador<8)) {
+		           		System.out.println("\nDado que se ha llegado al limite de porcentaje disponible, se le ha asignado 0% al resto de las categorias.");
+		           		System.out.println("\nPORCENTAJES DISTRIBUIDOS. \nSe ha actualizado la distribucion de porcentajes exitosamente.");}
+		        	
+		        	else if((porcentaje_restante>0)&&(contador==8)) {
+		        		usuario_activo.distribuirPorcentajes(lista_categorias[contador], porcentaje_restante);
+		        		System.out.println("\nEl porcentaje restante (" + porcentaje_restante + "%) ha sido asignado a la categoria '" + lista_categorias[contador] + "'.");
+		        		System.out.println("\nPORCENTAJES DISTRIBUIDOS. \nSe ha actualizado la distribucion de porcentajes exitosamente.");}
 		        	
 		        	break;}
 	        
-	        	case 2:{//Registrar nuevo gasto
+		        case 2:{//Ver distribucion de porcentajes
+	                System.out.println("\n----------------------VER DISTRIBUCION DE PORCENTAJES----------------------\n");
+	                if (usuario_activo.sumaPorcentajes()!=100) {
+	                    System.out.println("OPCION NO DISPONIBLE.\nPor el momento, no se han distribuido los porcentajes entre las categorias de gastos.");}
+	                
+	                else {
+	                	ArrayList<Double> lista_porcentajes = usuario_activo.getLista_porcentajes();
+	                	
+	                    for(int i=0;i<lista_porcentajes.size();i++) {
+	                    	System.out.println((i+1) + ". " + lista_categorias[i] + ": " + lista_porcentajes.get(i) + "%");}}
+	                
+	                break;}
+		        
+		        case 3:{//Registrar nuevo gasto
 	            	System.out.println("\n-------------------------REGISTRAR NUEVO GASTO-------------------------");
 	            	
 	            	//Atributos necesarios para registrar un gasto
@@ -742,7 +800,7 @@ class GestorFinanciero {
 	            	
 	                break;}
 	            
-	            case 3:{//Ver gastos
+	            case 4:{//Ver gastos
 	                System.out.println("\n------------------------------VER GASTOS------------------------------");
 	                if (gastos_activo.size()==0) {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun gasto registrado.");}
@@ -756,7 +814,7 @@ class GestorFinanciero {
 	                
 	                break;}
 	            
-	            case 4:{//Eliminar gasto
+	            case 5:{//Eliminar gasto
 	                System.out.println("\n----------------------------ELIMINAR GASTO----------------------------");
 	                if (gastos_activo.size()==0) {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun gasto registrado.");}
@@ -800,7 +858,7 @@ class GestorFinanciero {
 		                
 	                break;}
 	            
-	            case 5:{//Regresar
+	            case 6:{//Regresar
 	            	
 	            	//Limpiar la lista de registros del ususario
 	            	registros_activo.clear();
