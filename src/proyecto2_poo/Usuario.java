@@ -10,7 +10,6 @@ package proyecto2_poo;
 //Importar los paquetes/librerías que harán falta
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
 * Esta clase representará a cada usuario del programa
@@ -85,46 +84,38 @@ public class Usuario {
         this.edad = edad;
         this.tipo_perfil = tipo_perfil;
         this.registros = new ArrayList<Registro>();
-        this.lista_porcentajes = new ArrayList<Double>(Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0));}
+        this.lista_porcentajes = new ArrayList<Double>(Arrays.asList(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0));}
 
     //[Métodos]
-
+   
     /**
-	* Agregar un nuevo registro al usuario.
-	* @param registro Registro (ingreso, ahorro o gasto) que se desea agregar al usuario.
-	* @return Este método no devuelve nada.
-	*/
-    public void agregarRegistro(Registro registro) {
-        registros.add(registro);}
-    
-    /**
-	* Mostrar los registros del usuario.
-	* @return Este método no devuelve nada
-	*/
-    public void verRegistros() {
-        /*
-         * Aquí se debe programar este método.
-         */}
-    
-    /**
-	* Eliminar un registro elegido por el usuario.
-	* @return Este método no devuelve nada
-	*/
-    public void eliminarRegistro() {
-        /*
-         * Aquí se debe programar este método.
-         */}
-    
-    /**
-   	* Modificar el porcentaje de alguna categoría de gastos. 
-   	* @param categoria Categoría de la que se desea modificar el porcentaje.
-   	* @param porcentaje Nuevo porcentaje para dicha categoría.
-   	* @return Este método no devuelve nada
+   	* Modificar el porcentaje de alguna categoría de gastos (si se puede).
+   	* @param categoria La categoría de la que se desea modificar el porcentaje.
+   	* @param porcentaje El nevo porcentaje para dicha categoría.
+   	* @return Este método no devuelve nada.
    	*/
     public void distribuirPorcentajes(String categoria, double porcentaje) {
-    	/*
-         * Aquí se debe programar este método.
-         */}
+    	
+    	ArrayList<String> categorias = new ArrayList<String>(Arrays.asList("Alimentos y bebidas","Vivienda","Transporte","Salud","Educacion","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"));
+    	
+    	//Obtener el índice de la categoría que desea modificar el usuario
+    	int indice_categoria = categorias.indexOf(categoria);
+    	
+    	//Establecer el porcentaje indicado a la categoría
+    	lista_porcentajes.set(indice_categoria, porcentaje);}
+    
+
+    /**
+     * Sumar todos los valores de la lista de distribución de porcentajes de categorías.
+     * @return La suma de los valores de la lista de distribución de porcentajes de categorías.
+     */
+    public double sumaPorcentajes() {
+    	double totalPorcentajes = 0;
+    	
+    	for(int i=0;i<lista_porcentajes.size();i++) {
+    		totalPorcentajes += lista_porcentajes.get(i);}
+    	
+    	return totalPorcentajes;}
 
     /**
 	 * Obtiene el código de identificación (ID) del usuario.
@@ -153,6 +144,13 @@ public class Usuario {
 	 */
 	public ArrayList<Registro> getRegistros() {
 		return registros;}
+	
+	/**
+	 * Obtiene la lista de distribución de porcentajes de categorías. 
+	 * @return La lista de distribución de porcentajes de categorías. 
+	 */
+	public ArrayList<Double> getLista_porcentajes() {
+		return lista_porcentajes;}
 
 	/**
 	 * Modifica la lista de registros financieros del usuario.
@@ -161,5 +159,5 @@ public class Usuario {
 	 */
 	public void setRegistros(ArrayList<Registro> registros) {
 		this.registros = registros;}
-
+	
 }
