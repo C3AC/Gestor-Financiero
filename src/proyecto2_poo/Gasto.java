@@ -7,10 +7,6 @@ Creación: 06 de octubre del 2023
 
 package proyecto2_poo;
 
-//Importar los paquetes/librerías que harán falta
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
 * Esta será una subclase de Registro, que será específica para representar los gastos que registre el usuario.
 * @author Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy
