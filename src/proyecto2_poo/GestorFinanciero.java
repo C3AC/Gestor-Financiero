@@ -7,12 +7,10 @@ Creación: 06 de octubre del 2023
 
 package proyecto2_poo;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+//Importar los paquetes/librerías que harán falta
 import java.util.ArrayList;
 import java.util.Scanner;
+
 /**
 * Esta clase es el driver program. Es decir, la clase que conectará todas las demás clases y hará funcionar el gestor financiero.
 * @author Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy
@@ -28,14 +26,17 @@ class GestorFinanciero {
 	*/
 	public static void main(String[] args) {
 		
+		//Instanciar el gestor que permitirá la persistencia de los datos
+		ArchivoCSV gestor = new ArchivoCSV();
+		
 		//Lista en la que se almacenarán los usuarios del programa
 		ArrayList<Usuario> lista_usuarios = new ArrayList<Usuario>();
-		lista_usuarios = cargarUsuariosDesdeCSV();
-		ArrayList<String> lista_ids = new ArrayList<String>();
-		lista_ids = extraerIDsDesdeUsuarios(lista_usuarios);
-
-
+		lista_usuarios = gestor.cargarUsuariosCSV();
 		
+		//Lista en la que se almacenarán los IDs de los usuarios del programa
+		ArrayList<String> lista_ids = new ArrayList<String>();
+		lista_ids = gestor.extraerIDsUsuarios(lista_usuarios);
+
 		//Crear los scanners que registrarán los datos ingresados por el ususario
 		Scanner scanInt = new Scanner(System.in);
 		Scanner scanString = new Scanner(System.in);
@@ -45,7 +46,7 @@ class GestorFinanciero {
 		while(menu_principal) {
 			
 			//Menú que se le mostrará al usuario
-			System.out.println("\n\n-------------------BIENVENIDO/A A TU GESTOR FINANCIERO-------------------");
+			System.out.println("\n\n-------------------BIENVENIDO/A A SU GESTOR FINANCIERO-------------------");
 			System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Crear un perfil.\n2. Acceder a un perfil.\n3. Salir del programa.");
 			
 			int decision_principal = 0;
@@ -60,8 +61,7 @@ class GestorFinanciero {
 				case 1:{//Crear un perfil
 					System.out.println("\n----------------------------CREAR UN PERFIL----------------------------");
 					crearPerfil(lista_usuarios,lista_ids,scanString,scanInt);
-					break;
-				}
+					break;}
 				
 				case 2:{//Acceder a un perfil
 					System.out.println("\n---------------------------ACCEDER A UN PERFIL---------------------------");
@@ -69,8 +69,7 @@ class GestorFinanciero {
 						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble);}
 					else {
 						System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun usuario registrado en el gestor financiero.");}
-					break;
-				}
+					break;}
 				
 				case 3:{//Salir del programa
 					//Terminar el bucle del menú principal
@@ -81,13 +80,12 @@ class GestorFinanciero {
 					scanDouble.close();
 					scanString.close();
 					scanInt.close();
-					// Guardar información de los nuevos usuarios añadidos
-					break;
-				}
+					// Guardar información de los nuevos usuarios añadidos al programa
+					gestor.guardarUsuariosCSV(lista_usuarios);
+					break;}
 				
 				default:{//Opción no disponible (programación defensiva)
-					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
-				}
+					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}
 			}
 		}
 	}
@@ -137,7 +135,7 @@ class GestorFinanciero {
 		int decision_perfil = 0;
 	    boolean seleccion_perfil = true;
 	    while(seleccion_perfil) {
-	        System.out.println("\nSeleccione el numero correspondiente a su categoria de perfil: ");
+	        System.out.println("\nIngrese el numero correspondiente a su categoria de perfil: ");
 	        for(int i=0;i<tipos_de_perfiles.length;i++) {
 	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);
 			}
@@ -492,7 +490,7 @@ class GestorFinanciero {
 	            	//[Registro de datos del ingreso]
 	            	
 	            	System.out.println("\nIngrese la descripcion del ingreso: ");
-					descripcion = scanString.nextLine();
+					descripcion = scanString.nextLine().replace(",","");//Se quitan todas las comas, ya que estas pueden alterar el csv
 					
 					//Iniciar ciclo para el try-catch y la validación del monto del ingreso
 					boolean validar_monto = true;
@@ -561,11 +559,16 @@ class GestorFinanciero {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun ingreso registrado.");}
 	                
 	                else {
-	                    int num_ingreso = 1;
+	                    
+	                	double total_ingresos = 0;
+	                	int num_ingreso = 1;
 	                	for (Ingreso ingreso : ingresos_activo) {
 	                        System.out.println("\n" + num_ingreso + ". " + ingreso.getDescripcion());
 	                        System.out.println("    En el mes " + ingreso.getMes() + " del year " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
-	                        num_ingreso++;}}
+	                        num_ingreso++;
+	                        total_ingresos+=ingreso.getMonto();}
+	                	
+	                	System.out.println("\n\nMONTO TOTAL.\nEl monto total de todos los ingresos es de: Q" + total_ingresos);}
 	                
 	                break;}
 	            
@@ -588,7 +591,7 @@ class GestorFinanciero {
 						boolean seleccion_ingreso_eliminar = true;
 						while(seleccion_ingreso_eliminar) {
 							
-							System.out.println("\nSeleccione el numero que corresponda al ingreso que desea eliminar: ");
+							System.out.println("\nIngrese el numero que corresponda al ingreso que desea eliminar: ");
 							
 							try {num_ingreso_eliminar = scanInt.nextInt()-1;} //Se le resta 1 para obtener el índice del ingreso en la lista de ingresos activos
 							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
@@ -676,7 +679,7 @@ class GestorFinanciero {
 		        	
 		        	System.out.println("\n-------------------------DISTRIBUIR PORCENTAJES-------------------------");
 		        	
-		        	System.out.println("\n[Aclaraciones importantes]\nI. A continuacion, se le enlistaran las 9 categorias disponibles para que les \nasigne el porcentaje de su presupuesto que desea gastar en cada una de ellas.\n\nII. Si alguna categoria no le interesa, puede colocarle '0' como porcentaje.\n\nIII. El total de los 9 porcentajes asignados debera ser 100%; si llega a este \nlimite, se asignara automaticamente 0% a las categorias restantes.");
+		        	System.out.println("\n[Aclaraciones importantes]\nI. A continuacion, se le enlistaran las 9 categorias disponibles para que les \nasigne el porcentaje de su presupuesto que desea gastar en cada una de ellas.\n\nII. Si alguna categoria no le interesa, puede colocarle '0' como porcentaje.\n\nIII. El total de los 9 porcentajes asignados debera ser 100%. Si llega a este \nlimite, se asignara automaticamente 0% a las categorias restantes. Si llega a \nla ultima categoria ('Otros') y no ha llegado al 100%, se le asignara todo el \nporcentaje restante a dicha categoria");
 		        	
 		        	double porcentaje_restante = 100;
 		        	int contador = 0;
@@ -748,7 +751,7 @@ class GestorFinanciero {
 	            	//[Registro de datos del gasto]
 	            	
 	            	System.out.println("\nIngrese la descripcion del gasto: ");
-					descripcion = scanString.nextLine();
+					descripcion = scanString.nextLine().replace(",","");//Se quitan todas las comas, ya que estas pueden alterar el csv
 					
 					//Iniciar ciclo para el try-catch y la validación del monto del gasto
 					boolean validar_monto = true;
@@ -804,7 +807,7 @@ class GestorFinanciero {
 					//Iniciar ciclo para el try-catch de la categoria del gasto
 					boolean validar_categoria = true;
 					while(validar_categoria) {
-						try {System.out.println("Seleccione el numero que corresponda a la categoria del gasto: ");
+						try {System.out.println("Ingrese el numero que corresponda a la categoria del gasto: ");
 							for(int i=0;i<lista_categorias.length;i++) {//Enlistar las categorías
 								System.out.println((i+1) + ". " + lista_categorias[i]);}
 							num_categoria = scanInt.nextInt()-1;}//Se le resta 1 para obtener el índice de la categoría en el array, ya que se le había sumado 1 al mostrarlas
@@ -837,11 +840,16 @@ class GestorFinanciero {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun gasto registrado.");}
 	                
 	                else {
-	                    int num_gasto = 1;
+	                    
+	                	double total_gastos = 0;
+	                	int num_gasto = 1;
 	                	for (Gasto gasto : gastos_activo) {
 	                        System.out.println("\n" + num_gasto + ". " + gasto.getDescripcion() + " [" + gasto.getCategoria() + "]");
 	                        System.out.println("    En el mes " + gasto.getMes() + " del year " + gasto.getYear() + ". Monto: Q" + gasto.getMonto());
-	                        num_gasto++;}}
+	                        num_gasto++;
+	                        total_gastos+=gasto.getMonto();}
+	                
+	                	System.out.println("\n\nMONTO TOTAL.\nEl monto total de todos los gastos es de: Q" + total_gastos);}
 	                
 	                break;}
 	            
@@ -864,7 +872,7 @@ class GestorFinanciero {
 						boolean seleccion_gasto_eliminar = true;
 						while(seleccion_gasto_eliminar) {
 							
-							System.out.println("\nSeleccione el numero que corresponda al gasto que desea eliminar: ");
+							System.out.println("\nIngrese el numero que corresponda al gasto que desea eliminar: ");
 							
 							try {num_gasto_eliminar = scanInt.nextInt()-1;} //Se le resta 1 para obtener el índice del gasto en la lista de gastos activos
 							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
@@ -956,7 +964,7 @@ class GestorFinanciero {
 	            	//[Registro de datos del ahorro]
 	            	
 	            	System.out.println("\nIngrese la descripcion del ahorro: ");
-					descripcion = scanString.nextLine();
+					descripcion = scanString.nextLine().replace(",","");//Se quitan todas las comas, ya que estas pueden alterar el csv
 					
 					//Iniciar ciclo para el try-catch y la validación del monto del ahorro
 					boolean validar_monto = true;
@@ -1025,11 +1033,16 @@ class GestorFinanciero {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun ahorro registrado.");}
 	                
 	                else {
-	                    int num_ahorro = 1;
+	                    
+	                	double total_ahorros = 0;
+	                	int num_ahorro = 1;
 	                	for (Ahorro ahorro : ahorros_activo) {
 	                        System.out.println("\n" + num_ahorro + ". " + ahorro.getDescripcion());
 	                        System.out.println("    En el mes " + ahorro.getMes() + " del year " + ahorro.getYear() + ". Monto: Q" + ahorro.getMonto());
-	                        num_ahorro++;}}
+	                        num_ahorro++;
+	                        total_ahorros+=ahorro.getMonto();}
+	                	
+	                	System.out.println("\n\nMONTO TOTAL.\nEl monto total de todos los ahorros es de: Q" + total_ahorros);}
 	                
 	                break;}
 	            
@@ -1052,7 +1065,7 @@ class GestorFinanciero {
 						boolean seleccion_ahorro_eliminar = true;
 						while(seleccion_ahorro_eliminar) {
 							
-							System.out.println("\nSeleccione el numero que corresponda al ahorro que desea eliminar: ");
+							System.out.println("\nIngrese el numero que corresponda al ahorro que desea eliminar: ");
 							
 							try {num_ahorro_eliminar = scanInt.nextInt()-1;} //Se le resta 1 para obtener el índice del ahorro en la lista de ahorros activos
 							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
@@ -1099,96 +1112,5 @@ class GestorFinanciero {
 				}
 			}
 		}
-	}
-
-
-	public static void guardarUsuariosEnCSV(ArrayList<Usuario> lista_usuarios) {
-		String filename = "usuarios.csv";
-		FileWriter fileWriter = null;
-		try {
-			fileWriter = new FileWriter(filename);
-			fileWriter.append("CodigoIdentificacion,Nombre,Apellido,Sexo,Edad,TipoPerfil\n");
-			for (Usuario usuario : lista_usuarios) {
-				fileWriter.append(usuario.getCodigoIdentificacion());
-				fileWriter.append(",");
-				fileWriter.append(usuario.getNombre());
-				fileWriter.append(",");
-				fileWriter.append(usuario.getApellido());
-				fileWriter.append(",");
-				fileWriter.append(usuario.getSexo());
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getEdad()));
-				fileWriter.append(",");
-				fileWriter.append(usuario.getTipo_perfil());
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeAlimentosYBebidas()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeVivienda()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeTransporte()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeSalud()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeEducacion()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeEntretenimiento()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeRopaYCalzado()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeComunicaciones()));
-				fileWriter.append(",");
-				fileWriter.append(String.valueOf(usuario.getPorcentajeOtros()));
-				fileWriter.append("\n");
-			}
-		} catch (IOException e) {
-			System.out.println("Error al escribir en el archivo CSV.");
-		} finally {
-			try {
-				fileWriter.flush();
-				fileWriter.close();
-			} catch (IOException e) {
-				System.out.println("Error al cerrar el FileWriter.");
-			}
-		}
-	}
-
-	public static ArrayList<Usuario> cargarUsuariosDesdeCSV() {
-		String filename = "usuarios.csv";
-		ArrayList<Usuario> lista_usuarios = new ArrayList<>();
-		BufferedReader fileReader = null;
-		try {
-			String line = "";
-			fileReader = new BufferedReader(new FileReader(filename));
-			fileReader.readLine();
-			while ((line = fileReader.readLine()) != null) {
-				String[] data = line.split(",");
-				Usuario usuario = new Usuario(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5]);
-				ArrayList<Double> lista_porcentajes = new ArrayList<>();
-				for (int i = 6; i < 15; i++) {
-					lista_porcentajes.add(Double.parseDouble(data[i]));
-				}
-				usuario.setLista_porcentajes(lista_porcentajes);
-				lista_usuarios.add(usuario);
-			}
-		} catch (IOException e) {
-			System.out.println("Error al leer el archivo CSV.");
-		} finally {
-			try {
-				if (fileReader != null) {
-					fileReader.close();
-				}
-			} catch (IOException e) {
-				System.out.println("Error al cerrar el FileReader.");
-			}
-		}
-		return lista_usuarios;
-	}
-
-	public static ArrayList<String> extraerIDsDesdeUsuarios(ArrayList<Usuario> lista_usuarios) {
-		ArrayList<String> lista_ids = new ArrayList<>();
-		for (Usuario usuario : lista_usuarios) {
-			lista_ids.add(usuario.getCodigoIdentificacion());
-		}
-		return lista_ids;
 	}
 }

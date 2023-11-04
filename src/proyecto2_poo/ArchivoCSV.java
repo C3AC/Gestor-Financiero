@@ -8,13 +8,12 @@ Creación: 06 de octubre del 2023
 package proyecto2_poo;
 
 //Importar los paquetes/librerías que harán falta
-import java.util.List;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
 
 /**
 * Esta clase se encargará de manejar la lectura y escritura de datos en los archivos csv en los que se almacenarán los datos del programa (persistencia).
@@ -22,45 +21,122 @@ import java.io.IOException;
 * @version 20.0.1, 06/10/2023
 */
 public class ArchivoCSV {
-	
-	//[Atributos]
-	
-	/**
-	* Ruta del archivo con el que se trabajará. 
-	* Este atributo especifica la ubicación del archivo en el sistema.
-	*/
-	private String rutaArchivo;
 
 	//[Constructor]
 	
 	/**
 	* Constructor de la clase ArchivoCSV.
-	* @param rutaArchivo La ruta del archivo con el que se trabajará. 
 	*/
-    public ArchivoCSV(String rutaArchivo) {
-        this.rutaArchivo = rutaArchivo;}
+    public ArchivoCSV() {
+    	}
 
     //[Métodos]
     
-	/**
-	 * Lee los datos de registros desde el archivo csv.
-	 * @param lista_tickets La lista en la que se almacenarán los registros leídos del archivo csv.
-	 * @return Este método no devuelve nada.
-	 * @throws IOException Si ocurre un error al leer (o encontrar) el archivo.
-	 */
-	public void leerArchivo() {
-        // Implementación para leer el archivo CSV
-    }
+    /**
+	* Escribe los datos de los usuarios brindados en el archivo csv.
+	* @param lista_usuarios La lista de usuarios a escribir en el archivo csv.
+	* @return Este método no devuelve nada.
+	*/
+    public void guardarUsuariosCSV(ArrayList<Usuario> lista_usuarios) {
+		String filename = "usuarios.csv";
+		FileWriter fileWriter = null;
+		
+		try {
+			fileWriter = new FileWriter(filename);
+			fileWriter.append("CodigoIdentificacion,Nombre,Apellido,Sexo,Edad,TipoPerfil\n");
+			
+			for (Usuario usuario : lista_usuarios) {
+				fileWriter.append(usuario.getCodigoIdentificacion());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getNombre());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getApellido());
+				fileWriter.append(",");
+				fileWriter.append(usuario.getSexo());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getEdad()));
+				fileWriter.append(",");
+				fileWriter.append(usuario.getTipo_perfil());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeAlimentosYBebidas()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeVivienda()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeTransporte()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeSalud()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeEducacion()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeEntretenimiento()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeRopaYCalzado()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeComunicaciones()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(usuario.getPorcentajeOtros()));
+				fileWriter.append("\n");}} 
+		
+		catch (IOException e) {
+			System.out.println("Error al guardar los datos en el archivo CSV.");} 
+		
+		finally {
+			try {
+				fileWriter.flush();
+				fileWriter.close();}
+			catch (IOException e) {
+				System.out.println("Error al cerrar el lector de archivos.");}}}
 
     /**
-	* Escribe los datos de los registros brindados en el archivo csv.
-	* @param lista_registros La lista de registros a escribir en el archivo csv.
-	* @return Este método no devuelve nada.
-	* @throws IOException Si ocurre un error al escribir (o encontrar) el archivo.
-	*/
-    public void escribirArchivo(List<Registro> lista_registros) {
-        // Implementación para escribir en el archivo CSV
-    }
-    
-    //Aquí estáran el resto de sus métodos...
+	 * Lee los datos de los usuarios desde el archivo csv.
+	 * @return La lista de usuarios leída del archivo csv.
+	 */
+	public ArrayList<Usuario> cargarUsuariosCSV() {
+		String filename = "usuarios.csv";
+		ArrayList<Usuario> lista_usuarios = new ArrayList<>();
+		BufferedReader fileReader = null;
+		
+		try {
+			String line = "";
+			fileReader = new BufferedReader(new FileReader(filename));
+			fileReader.readLine();
+			
+			while ((line = fileReader.readLine()) != null) {
+				String[] data = line.split(",");
+				Usuario usuario = new Usuario(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5]);
+				ArrayList<Double> lista_porcentajes = new ArrayList<>();
+				for (int i = 6; i < 15; i++) {
+					lista_porcentajes.add(Double.parseDouble(data[i]));}
+				
+				usuario.setLista_porcentajes(lista_porcentajes);
+				lista_usuarios.add(usuario);}} 
+		
+		catch(FileNotFoundException ex) {//No se debe hacer nada, ya que solo sucederá cuando sea la primera vez que se corre el programa y aún no se ha creado el archivo.
+			}
+		
+		catch (IOException e) {
+			System.out.println("Error al cargar los datos del archivo CSV.");}
+		
+		finally {
+			try {
+				if (fileReader != null) {
+					fileReader.close();}}
+				
+				catch (IOException e) {
+				System.out.println("Error al cerrar el lector de archivos.");}}
+		
+		return lista_usuarios;}
+
+	/**
+	 * Genera una lista con los IDs de los usuarios brindados.
+	 * @param lista_usuarios La lista de usuarios de los que se desea extraer el ID.
+	 * @return La lista de IDs de los usuarios brindados.
+	 */
+	public ArrayList<String> extraerIDsUsuarios(ArrayList<Usuario> lista_usuarios) {
+		ArrayList<String> lista_ids = new ArrayList<>();
+		
+		for (Usuario usuario : lista_usuarios) {
+			lista_ids.add(usuario.getCodigoIdentificacion());}
+		
+		return lista_ids;}
 }

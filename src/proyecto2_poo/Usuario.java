@@ -163,58 +163,96 @@ public class Usuario {
 	 * @return Este método no devuelve nada.
 	 */
 	public void setRegistros(ArrayList<Registro> registros) {
-		this.registros = registros;
-	}
+		this.registros = registros;}
 
+	/**
+	 * Obtiene el nombre del usuario.
+	 * @return El nombre del usuario.
+	 */
 	public String getNombre() {
-		return nombre;
-	}
+		return nombre;}
 
+	/**
+	 * Obtiene el apellido del usuario.
+	 * @return El apellido del usuario.
+	 */
 	public String getApellido() {
-		return apellido;
-	}
+		return apellido;}
 
+	/**
+	 * Obtiene el sexo del usuario.
+	 * @return El sexo del usuario.
+	 */
 	public String getSexo() {
-		return sexo;
-	}
+		return sexo;}
 
+	/**
+	 * Obtiene la edad del usuario.
+	 * @return La edad del usuario.
+	 */
 	public int getEdad() {
-		return edad;
-	}
+		return edad;}
 	
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Alimentos y bebidas'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Alimentos y bebidas'.
+	 */
 	public double getPorcentajeAlimentosYBebidas() {
-		return this.lista_porcentajes.get(0);
-	}
+		return this.lista_porcentajes.get(0);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Vivienda'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Vivienda'.
+	 */
 	public double getPorcentajeVivienda() {
-		return this.lista_porcentajes.get(1);
-	}
+		return this.lista_porcentajes.get(1);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Transporte'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Transporte'.
+	 */
 	public double getPorcentajeTransporte() {
-		return this.lista_porcentajes.get(2);
-	}
+		return this.lista_porcentajes.get(2);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Salud'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Salud'.
+	 */
 	public double getPorcentajeSalud() {
-		return this.lista_porcentajes.get(3);
-	}
+		return this.lista_porcentajes.get(3);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Educación'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Educación'.
+	 */
 	public double getPorcentajeEducacion() {
-		return this.lista_porcentajes.get(4);
-	}
+		return this.lista_porcentajes.get(4);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Entretenimiento'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Entretenimiento'.
+	 */
 	public double getPorcentajeEntretenimiento() {
-		return this.lista_porcentajes.get(5);
-	}
+		return this.lista_porcentajes.get(5);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Ropa y calzado'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Ropa y calzado'.
+	 */
 	public double getPorcentajeRopaYCalzado() {
-		return this.lista_porcentajes.get(6);
-	}
+		return this.lista_porcentajes.get(6);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Comunicaciones'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Comunicaciones'.
+	 */
 	public double getPorcentajeComunicaciones() {
-		return this.lista_porcentajes.get(7);
-	}
+		return this.lista_porcentajes.get(7);}
 
+	/**
+	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Otros'.
+	 * @return El porcentaje asignado por el usuario a la categoría 'Otros'.
+	 */
 	public double getPorcentajeOtros() {
-		return this.lista_porcentajes.get(8);
-	}
+		return this.lista_porcentajes.get(8);}
 }
