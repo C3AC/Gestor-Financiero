@@ -98,6 +98,6 @@ abstract class Registro {
 	 * @return El tipo de registro. 
 	 */
 	public String getTipo_registro() {
-		return tipo_registro;}
-	
+		return tipo_registro;
+	}
 }

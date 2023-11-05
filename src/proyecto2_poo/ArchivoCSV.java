@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
+
 /**
 * Esta clase se encargará de manejar la lectura y escritura de datos en los archivos csv en los que se almacenarán los datos del programa (persistencia).
 * @author Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy
@@ -75,17 +76,24 @@ public class ArchivoCSV {
 				fileWriter.append(String.valueOf(usuario.getPorcentajeComunicaciones()));
 				fileWriter.append(",");
 				fileWriter.append(String.valueOf(usuario.getPorcentajeOtros()));
-				fileWriter.append("\n");}} 
+				fileWriter.append("\n");
+			}
+		} 
 		
 		catch (IOException e) {
-			System.out.println("Error al guardar los datos en el archivo CSV.");} 
+			System.out.println("Error al guardar los datos en el archivo CSV.");
+		} 
 		
 		finally {
 			try {
 				fileWriter.flush();
-				fileWriter.close();}
+				fileWriter.close();
+			}
 			catch (IOException e) {
-				System.out.println("Error al cerrar el lector de archivos.");}}}
+				System.out.println("Error al cerrar el lector de archivos.");
+			}
+		}
+	}
 
     /**
 	 * Lee los datos de los usuarios desde el archivo csv.
@@ -106,26 +114,35 @@ public class ArchivoCSV {
 				Usuario usuario = new Usuario(data[0], data[1], data[2], data[3], Integer.parseInt(data[4]), data[5]);
 				ArrayList<Double> lista_porcentajes = new ArrayList<>();
 				for (int i = 6; i < 15; i++) {
-					lista_porcentajes.add(Double.parseDouble(data[i]));}
+					lista_porcentajes.add(Double.parseDouble(data[i]));
+				}
 				
 				usuario.setLista_porcentajes(lista_porcentajes);
-				lista_usuarios.add(usuario);}} 
+				lista_usuarios.add(usuario);
+			}
+		} 
 		
 		catch(FileNotFoundException ex) {//No se debe hacer nada, ya que solo sucederá cuando sea la primera vez que se corre el programa y aún no se ha creado el archivo.
 			}
 		
 		catch (IOException e) {
-			System.out.println("Error al cargar los datos del archivo CSV.");}
+			System.out.println("Error al cargar los datos del archivo CSV.");
+		}
 		
 		finally {
 			try {
 				if (fileReader != null) {
-					fileReader.close();}}
+					fileReader.close();
+				}
+			}
 				
 				catch (IOException e) {
-				System.out.println("Error al cerrar el lector de archivos.");}}
+				System.out.println("Error al cerrar el lector de archivos.");
+			}
+		}
 		
-		return lista_usuarios;}
+		return lista_usuarios;
+	}
 
 	/**
 	 * Genera una lista con los IDs de los usuarios brindados.
@@ -136,7 +153,87 @@ public class ArchivoCSV {
 		ArrayList<String> lista_ids = new ArrayList<>();
 		
 		for (Usuario usuario : lista_usuarios) {
-			lista_ids.add(usuario.getCodigoIdentificacion());}
+			lista_ids.add(usuario.getCodigoIdentificacion());
+		}
 		
-		return lista_ids;}
+		return lista_ids;
+	}
+	public static void guardarRegistrosCSV(ArrayList<Registro> lista_registros,Usuario usuario_activo) {
+		String filename = usuario_activo.getNombre_completo() + ".csv";
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(filename);
+			fileWriter.append("Descripcion,Monto,TipoRegistro,Mes,Year,Extra\n");
+			for (Registro registro : lista_registros) {
+				fileWriter.append(registro.getDescripcion());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(registro.getMonto()));
+				fileWriter.append(",");
+				fileWriter.append(registro.getTipo_registro());
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(registro.getMes()));
+				fileWriter.append(",");
+				fileWriter.append(String.valueOf(registro.getYear()));
+				fileWriter.append(",");
+				if (registro instanceof Gasto) {
+					Gasto gasto = (Gasto) registro;
+					fileWriter.append(gasto.getCategoria());
+				}
+				else if (registro instanceof Ahorro) {
+					fileWriter.append("N/A");
+				}
+				fileWriter.append("\n");
+			}
+		} catch (IOException e) {
+			System.out.println("Error al escribir el archivo CSV.");
+		} finally {
+			try {
+				if (fileWriter != null) {
+					fileWriter.close();
+				}
+			} catch (IOException e) {
+				System.out.println("Error al cerrar el FileWriter.");
+			}
+		}
+	}
+	public static ArrayList<Registro> cargarRegistrosCSV(String nombreCompletoUsuario) {
+		String filename = nombreCompletoUsuario + ".csv";
+		ArrayList<Registro> lista_registros = new ArrayList<>();
+		BufferedReader fileReader = null;
+		try {
+			fileReader = new BufferedReader(new FileReader(filename));
+			String line = "";
+			fileReader.readLine(); // skip header
+			while ((line = fileReader.readLine()) != null) {
+				String[] data = line.split(",");
+				if (data[0].equals(nombreCompletoUsuario)) {
+					String descripcion = data[1];
+					double monto = Double.parseDouble(data[2]);
+					String tipoRegistro = data[3];
+					int mes = Integer.parseInt(data[4]);
+					int year = Integer.parseInt(data[5]);
+					String tipo = data[6];
+					Registro registro;
+					if (tipoRegistro.equals("Ingreso")) {
+						registro = new Ingreso(monto, descripcion, mes, year, tipo);
+					} else { // Gasto
+						String categoria = data[7];
+						registro = new Gasto(monto, descripcion, mes, year, tipo, categoria);
+					}
+					lista_registros.add(registro);
+				}
+			}
+		} catch (IOException e) {
+			System.out.println("Error al leer el archivo CSV.");
+		} finally {
+			try {
+				if (fileReader != null) {
+					fileReader.close();
+				}
+			} catch (IOException e) {
+				System.out.println("Error al cerrar el FileReader.");
+			}
+		}
+		return lista_registros;
+	}
 }

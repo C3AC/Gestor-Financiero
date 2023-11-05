@@ -50,26 +50,31 @@ class GestorFinanciero {
 			System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Crear un perfil.\n2. Acceder a un perfil.\n3. Salir del programa.");
 			
 			int decision_principal = 0;
-			try {decision_principal = scanInt.nextInt();} 
+			try {decision_principal = scanInt.nextInt();
+			}
+
 			catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número 
 				System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 				scanInt.nextLine();
-				continue;}
+				continue;
+			}
 				
-			switch(decision_principal) 
-			{
+			switch(decision_principal) {
 				case 1:{//Crear un perfil
 					System.out.println("\n----------------------------CREAR UN PERFIL----------------------------");
 					crearPerfil(lista_usuarios,lista_ids,scanString,scanInt);
-					break;}
+					break;
+				}
 				
 				case 2:{//Acceder a un perfil
 					System.out.println("\n---------------------------ACCEDER A UN PERFIL---------------------------");
 					if(lista_usuarios.size()>0) {
-						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble);}
+						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble);
+					}
 					else {
 						System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun usuario registrado en el gestor financiero.");}
-					break;}
+					break;
+				}
 				
 				case 3:{//Salir del programa
 					//Terminar el bucle del menú principal
@@ -82,10 +87,12 @@ class GestorFinanciero {
 					scanInt.close();
 					// Guardar información de los nuevos usuarios añadidos al programa
 					gestor.guardarUsuariosCSV(lista_usuarios);
-					break;}
+					break;
+				}
 				
 				default:{//Opción no disponible (programación defensiva)
-					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}
+					System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
+				}
 			}
 		}
 	}
@@ -109,10 +116,14 @@ class GestorFinanciero {
 			for(int i=0;i<lista_usuarios.size();i++) {//Por cada ticket de la lista de tickets
 				Usuario usuario = lista_usuarios.get(i);
 				if(id_string.compareTo(usuario.getCodigoIdentificacion())!=0) {//Si el id generado es diferente al id del i-ésimo ticket
-					contador++;}}//Sumar 1 al contador
+					contador++;
+				}
+			}//Sumar 1 al contador
 			
 			if(contador==lista_usuarios.size()) {//Si el contador tiene la misma cantidad de elementos que la lista de tickets (ya que se sumó 1 por cada ticket con ID diferente)
-				validar_id = false;}}//Salir del ciclo
+				validar_id = false;
+			}
+		}//Salir del ciclo
 		
 		return id_string;
 	}
@@ -128,9 +139,7 @@ class GestorFinanciero {
 	public static void crearPerfil(ArrayList<Usuario> lista_usuarios, ArrayList<String> lista_ids, Scanner scanString, Scanner scanInt) {
 		
 		//Tipos de perfiles disponibles
-		String [] tipos_de_perfiles = {
-			"Padre/Madre","Freelancer","Estudiante"
-	};
+		String [] tipos_de_perfiles = {"Padre/Madre","Freelancer","Estudiante"};
 
 		int decision_perfil = 0;
 	    boolean seleccion_perfil = true;
@@ -140,7 +149,9 @@ class GestorFinanciero {
 	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);
 			}
 	        
-	        try {decision_perfil = scanInt.nextInt()-1;} 
+	        try {
+				decision_perfil = scanInt.nextInt()-1;
+			} 
 	        catch(Exception e) {
 	            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 	            scanInt.nextLine();
@@ -406,7 +417,20 @@ class GestorFinanciero {
 		        catch(Exception e) {
 		            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 		            scanInt.nextLine();
-		            continue;}
+		            continue;
+				}
+		ArrayList<Registro> registros_activo = ArchivoCSV.cargarRegistrosCSV(usuario_activo.getNombre_completo() + ".csv");
+		ArrayList<Ingreso> lista_ingresos = new ArrayList<>();
+		ArrayList<Gasto> lista_gastos = new ArrayList<>();
+
+	for (Registro registro : registros_activo) {
+    	if (registro instanceof Ingreso) {
+        	lista_ingresos.add((Ingreso) registro);
+    	} 
+		else if (registro instanceof Gasto) {
+        	lista_gastos.add((Gasto) registro);
+    	}
+	}
 		        
 		        switch(decision_secundaria) {
 		        
@@ -433,11 +457,15 @@ class GestorFinanciero {
 		                
 		            	//Terminar el bucle del menú secundario
 		                menu_secundario = false;
-		                
+		                ArchivoCSV.guardarRegistrosCSV(registros_activo, usuario_activo);
 		                break;}
 		            
 					default:{//Opción no disponible (programación defensiva)
-						System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}
+						System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
+					}
+				}
+			}
+		}
 	    
 	    else {//Si el código de identificación ingresado no se encuentra entre los códigos del gestor financiero
 			System.out.println("\nPERFIL NO ENCONTRADO.\nNo hay ningun perfil con el codigo de identificacion ingresado. Verifique que el ID sea correcto o que su perfil ya exista.");}}
@@ -453,7 +481,18 @@ class GestorFinanciero {
 	public static void menuIngresos(Usuario usuario_activo, Scanner scanString, Scanner scanInt, Scanner scanDouble) {
 		
 		//Lista que contiene todos los registros que tiene el usuario activo
-		ArrayList<Registro> registros_activo = usuario_activo.getRegistros();
+		ArrayList<Registro> registros_activo = ArchivoCSV.cargarRegistrosCSV(usuario_activo.getNombre_completo() + ".csv");
+		ArrayList<Ingreso> lista_ingresos = new ArrayList<>();
+		ArrayList<Gasto> lista_gastos = new ArrayList<>();
+
+	for (Registro registro : registros_activo) {
+    	if (registro instanceof Ingreso) {
+        	lista_ingresos.add((Ingreso) registro);
+    	} 
+		else if (registro instanceof Gasto) {
+        	lista_gastos.add((Gasto) registro);
+    	}
+	}
 		//Lista para almacenar los ingresos que tiene el usuario activo
 		ArrayList<Ingreso> ingresos_activo = new ArrayList<Ingreso>();
 		//Lista para almacenar los ahorros y gastos que tiene el usuario activo
@@ -463,7 +502,9 @@ class GestorFinanciero {
 			if(registro.getTipo_registro().equals("Ingreso")) {
 				ingresos_activo.add((Ingreso)registro);}
 			else {
-				otros_activo.add(registro);}}
+				otros_activo.add(registro);
+			}
+		}
 	
 		boolean menu_ingresos = true;
 	    while(menu_ingresos) {
@@ -471,11 +512,14 @@ class GestorFinanciero {
 	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Registrar nuevo ingreso. \n2. Ver ingresos.\n3. Eliminar ingreso.\n4. Regresar.");
 	        
 	        int decision_ingresos;
-	        try {decision_ingresos = scanInt.nextInt();} 
+	        try {
+				decision_ingresos = scanInt.nextInt();
+			} 
 	        catch(Exception e) {
 	            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 	            scanInt.nextLine();
-	            continue;}
+	            continue;
+			}
 	        
 	        switch(decision_ingresos) 
 	        {
@@ -495,58 +539,75 @@ class GestorFinanciero {
 					//Iniciar ciclo para el try-catch y la validación del monto del ingreso
 					boolean validar_monto = true;
 					while(validar_monto) {
-						try {System.out.println("Ingrese el monto del ingreso (en Q): ");
-							monto = scanDouble.nextDouble();}
+						try {
+							System.out.println("Ingrese el monto del ingreso (en Q): ");
+							monto = scanDouble.nextDouble();
+						}
 						
 						catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
 							System.out.println("**ERROR** El monto del ingreso debe ser un dato numerico.\n");
 							scanDouble.nextLine();
-							continue;}
+							continue;
+						}
 						
 						if(monto<=0) {//Si el monto ingresado es menor o igual a 0
-							System.out.println("**ERROR** El monto del ingreso no puede ser menor o igual a Q0.\n");}
+							System.out.println("**ERROR** El monto del ingreso no puede ser menor o igual a Q0.\n");
+						}
 						
 						else {//Salir del ciclo
-							validar_monto = false;}}
+							validar_monto = false;
+						}
+					}
 					
 					//Iniciar ciclo para el try-catch y la validación del mes del ingreso
 					boolean validar_mes = true;
 					while(validar_mes) {
 						try {System.out.println("Ingrese el mes del ingreso en formato numerico (ej. '4' para abril, '9' para septiembre): ");
-							mes = scanInt.nextInt();}
+							mes = scanInt.nextInt();
+						}
 						
 						catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
 							System.out.println("**ERROR** El mes debe ser un dato numerico entero.\n");
 							scanInt.nextLine();
-							continue;}
+							continue;
+						}
 						
 						if(mes<1||mes>12) {//Si el mes ingresado no coincide con alguno de los meses del año (debe estar entre 1 y 12)
-							System.out.println("**ERROR** El mes ingresado no es valido (debe estar entre 1 y 12).\n");}
+							System.out.println("**ERROR** El mes ingresado no es valido (debe estar entre 1 y 12).\n");
+						}
 						
 						else {//Salir del ciclo
-							validar_mes = false;}}
+							validar_mes = false;
+						}
+					}
 					
 					//Iniciar ciclo para el try-catch y la validación del año del ingreso
 					boolean validar_year = true;
 					while(validar_year) {
 						try {System.out.println("Ingrese el year del ingreso: ");
-							year = scanInt.nextInt();}
+							year = scanInt.nextInt();
+						}
 						
 						catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
 							System.out.println("**ERROR** El year debe ser un dato numerico entero.\n");
 							scanInt.nextLine();
-							continue;}
+							continue;
+						}
 						
 						if(year>2023) {//Si el año ingresado es mayor al año actual
-							System.out.println("**ERROR** El year del ingreso no puede ser mayor que el year actual (2023).\n");}
+							System.out.println("**ERROR** El year del ingreso no puede ser mayor que el year actual (2023).\n");
+						}
 						
 						else {//Salir del ciclo
-							validar_year = false;}}
+							validar_year = false;
+						}
+					}
 					
 					//Instanciar el ingreso con los datos brindados por el usuario
 					Ingreso nuevo_ingreso = new Ingreso(monto,descripcion,mes,year,"Ingreso");
 					//Agregar el ingreso a la lista de ingresos del usuario activo
 					ingresos_activo.add(nuevo_ingreso);
+					registros_activo.add(nuevo_ingreso);
 					
 					//Notificar al usuario que se ha registrado el ingreso
 					System.out.println("\nINGRESO REGISTRADO. \nEl ingreso (" + descripcion + ") ha sido registrado exitosamente.");
@@ -566,11 +627,13 @@ class GestorFinanciero {
 	                        System.out.println("\n" + num_ingreso + ". " + ingreso.getDescripcion());
 	                        System.out.println("    En el mes " + ingreso.getMes() + " del year " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
 	                        num_ingreso++;
-	                        total_ingresos+=ingreso.getMonto();}
+	                        total_ingresos+=ingreso.getMonto();
+						}
 	                	
 	                	System.out.println("\n\nMONTO TOTAL.\nEl monto total de todos los ingresos es de: Q" + total_ingresos);}
 	                
-	                break;}
+	                break;
+				}
 	            
 	            case 3:{//Eliminar ingreso
 	                System.out.println("\n----------------------------ELIMINAR INGRESO----------------------------");
@@ -828,11 +891,13 @@ class GestorFinanciero {
 					Gasto nuevo_gasto = new Gasto(monto,descripcion,mes,year,"Gasto",categoria);
 					//Agregar el gasto a la lista de gastos del usuario activo
 					gastos_activo.add(nuevo_gasto);
+					registros_activo.add(nuevo_gasto);
 					
 					//Notificar al usuario que se ha registrado el gasto
 					System.out.println("\nGASTO REGISTRADO. \nEl gasto (" + descripcion + ") ha sido registrado exitosamente.");
 	            	
-	                break;}
+	                break;
+				}
 	            
 	            case 4:{//Ver gastos
 	                System.out.println("\n------------------------------VER GASTOS------------------------------");
@@ -1029,6 +1094,7 @@ class GestorFinanciero {
 	            
 	            case 2:{//Ver ahorros
 	                System.out.println("\n------------------------------VER AHORROS------------------------------");
+
 	                if (ahorros_activo.size()==0) {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun ahorro registrado.");}
 	                

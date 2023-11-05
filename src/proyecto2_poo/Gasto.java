@@ -44,6 +44,7 @@ public class Gasto extends Registro {
 	 * @return La categoría a la que pertenece el gasto. 
 	 */
 	public String getCategoria() {
-		return categoria;}
+		return categoria;
+	}
 
 }
