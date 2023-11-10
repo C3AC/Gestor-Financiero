@@ -1,9 +1,9 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 3]
+Proyecto 2: Gestor Financiero [Fase 4]
 Creación: 06 de octubre del 2023
-Última modificación: 05 de noviembre del 2023*/
+Última modificación: 09 de noviembre del 2023*/
 
 package proyecto2_poo;
 
@@ -99,5 +99,11 @@ abstract class Registro {
 	 */
 	public String getTipo_registro() {
 		return tipo_registro;}
+	
+	/**
+	 * Método abstracto para formatear la información del registro al formato reconocido por el archivo csv.
+	 * @return La información del registro en el formato reconocido por el archivo csv.
+	 */
+	public abstract String formatoCSV();
 	
 }

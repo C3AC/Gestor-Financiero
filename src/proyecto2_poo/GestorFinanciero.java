@@ -1,12 +1,14 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 3]
+Proyecto 2: Gestor Financiero [Fase 4]
 Creación: 06 de octubre del 2023
-Última modificación: 05 de noviembre del 2023*/
+Última modificación: 09 de noviembre del 2023*/
 
 package proyecto2_poo;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
 //Importar los paquetes/librerías que harán falta
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -50,14 +52,14 @@ class GestorFinanciero {
 			System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Crear un perfil.\n2. Acceder a un perfil.\n3. Salir del programa.");
 			
 			int decision_principal = 0;
-			try {decision_principal = scanInt.nextInt();} 
+			try {decision_principal = scanInt.nextInt();}
+
 			catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número 
 				System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 				scanInt.nextLine();
 				continue;}
 				
-			switch(decision_principal) 
-			{
+			switch(decision_principal) {
 				case 1:{//Crear un perfil
 					System.out.println("\n----------------------------CREAR UN PERFIL----------------------------");
 					crearPerfil(lista_usuarios,lista_ids,scanString,scanInt);
@@ -66,7 +68,8 @@ class GestorFinanciero {
 				case 2:{//Acceder a un perfil
 					System.out.println("\n---------------------------ACCEDER A UN PERFIL---------------------------");
 					if(lista_usuarios.size()>0) {
-						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble);}
+						accederPerfil(lista_usuarios,lista_ids,scanString,scanInt,scanDouble,gestor);}
+					
 					else {
 						System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun usuario registrado en el gestor financiero.");}
 					break;}
@@ -81,7 +84,9 @@ class GestorFinanciero {
 					scanString.close();
 					scanInt.close();
 					// Guardar información de los nuevos usuarios añadidos al programa
-					gestor.guardarUsuariosCSV(lista_usuarios);
+					try {gestor.guardarUsuariosCSV(lista_usuarios);} 
+					catch (IOException e) {
+						e.printStackTrace();}
 					break;}
 				
 				default:{//Opción no disponible (programación defensiva)
@@ -114,8 +119,7 @@ class GestorFinanciero {
 			if(contador==lista_usuarios.size()) {//Si el contador tiene la misma cantidad de elementos que la lista de tickets (ya que se sumó 1 por cada ticket con ID diferente)
 				validar_id = false;}}//Salir del ciclo
 		
-		return id_string;
-	}
+		return id_string;}
 	
 	/**
 	 * Registro de datos y creación de perfil.
@@ -128,33 +132,27 @@ class GestorFinanciero {
 	public static void crearPerfil(ArrayList<Usuario> lista_usuarios, ArrayList<String> lista_ids, Scanner scanString, Scanner scanInt) {
 		
 		//Tipos de perfiles disponibles
-		String [] tipos_de_perfiles = {
-			"Padre/Madre","Freelancer","Estudiante"
-	};
+		String [] tipos_de_perfiles = {"Padre/Madre","Freelancer","Estudiante"};
 
 		int decision_perfil = 0;
 	    boolean seleccion_perfil = true;
 	    while(seleccion_perfil) {
 	        System.out.println("\nIngrese el numero correspondiente a su categoria de perfil: ");
 	        for(int i=0;i<tipos_de_perfiles.length;i++) {
-	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);
-			}
+	            System.out.println((i+1) + ". " + tipos_de_perfiles[i]);}
 	        
-	        try {decision_perfil = scanInt.nextInt()-1;} 
+	        try {
+				decision_perfil = scanInt.nextInt()-1;} 
 	        catch(Exception e) {
 	            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 	            scanInt.nextLine();
-	            continue;
-			}
+	            continue;}
 	        
 	        if((decision_perfil>=0)&&(decision_perfil<tipos_de_perfiles.length)) {
-	            seleccion_perfil = false;
-			} 
+	            seleccion_perfil = false;} 
 	        
 	        else {
-	            System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");
-			}
-		}
+	            System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");}}
 	    
 	    if(tipos_de_perfiles[decision_perfil].equals("Padre/Madre")) {//El tipo de perfil es de Padre/Madre
 	        
@@ -178,13 +176,10 @@ class GestorFinanciero {
 				if(nombre_completo_usuario.length==2) {//Si el nombre ingresado tiene 2 palabras
 					validar_nombre = false;//Salir del ciclo
 					nombre = nombre_completo_usuario[0];
-					apellido = nombre_completo_usuario[1];
-				}
+					apellido = nombre_completo_usuario[1];}
 				
 				else {//Solicitar que lo vuelva a introducir
-					System.out.println("**ERROR** Ingrese sus datos en el formato solicitado.\n");
-				}
-			}
+					System.out.println("**ERROR** Ingrese sus datos en el formato solicitado.\n");}}
 	        
 			//Ciclo para validar el sexo del usuario
 	        boolean validar_sexo = true;
@@ -196,9 +191,7 @@ class GestorFinanciero {
 					validar_sexo = false;}//Salir del ciclo}
 				
 				else {//Solicitar que lo vuelva a introducir
-					System.out.println("**ERROR** El sexo ingresado no es valido.\n");
-				}
-			}
+					System.out.println("**ERROR** El sexo ingresado no es valido.\n");}}
 			
 			//Iniciar ciclo para el try-catch de la edad del ususario
 			boolean validar_edad = true;
@@ -209,17 +202,13 @@ class GestorFinanciero {
 				catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
 					System.out.println("**ERROR** La edad debe ser un dato numerico entero.\n");
 					scanInt.nextLine();
-					continue;
-				}
+					continue;}
 				
 				if(edad<=0) {//Si la edad ingresada es menor o igual a 0
-					System.out.println("**ERROR** La edad no puede ser menor o igual a 0.\n");
-				}
+					System.out.println("**ERROR** La edad no puede ser menor o igual a 0.\n");}
 				
 				else {//Salir del ciclo
-					validar_edad = false;
-				}
-			}
+					validar_edad = false;}}
 			
 			tipo_perfil = tipos_de_perfiles[decision_perfil];
 	        
@@ -373,11 +362,12 @@ class GestorFinanciero {
 	 * @param scanString El scanner para registrar los textos ingresados por el usuario.
 	 * @param scanInt El scanner para registrar los números enteros ingresados por el usuario.
 	 * @param scanDouble El scanner para registrar los números decimales ingresados por el usuario.
+	 * @param gestor El gestor (instancia de la clase ArchivoCSV) para guardar y leer los datos del csv.
 	 * @return Este método no devuelve nada.
 	 */
-	public static void accederPerfil(ArrayList<Usuario> lista_usuarios, ArrayList<String> lista_ids, Scanner scanString, Scanner scanInt, Scanner scanDouble) {
-	    
-	    //En esta variable se registrará el código de identificación ingresado por el ususario
+	public static void accederPerfil(ArrayList<Usuario> lista_usuarios, ArrayList<String> lista_ids, Scanner scanString, Scanner scanInt, Scanner scanDouble, ArchivoCSV gestor) {
+	    	
+		//En esta variable se registrará el código de identificación ingresado por el ususario
 	    int codigo_acceso = 0;
 	   
 	    //Iniciar ciclo para el try-catch del código de identificación del ususario
@@ -396,18 +386,25 @@ class GestorFinanciero {
 	    if(lista_ids.contains(""+codigo_acceso)) {//Si el código de acceso ingresado se encuentra entre los códigos del gestor financiero
 				    
 		    Usuario usuario_activo = lista_usuarios.get(lista_ids.indexOf(""+codigo_acceso));
+		    
+		    ArrayList<Registro> registros_activo = null;
+		    try {registros_activo = gestor.cargarRegistrosCSV(usuario_activo);} 
+			catch (IOException e) {
+				e.printStackTrace();}
+		    usuario_activo.setRegistros(registros_activo);		 
 		        
 		    boolean menu_secundario = true;
 		    while(menu_secundario) {
-		        System.out.println("\n[" + usuario_activo.getTipo_perfil().toUpperCase() + "]\nBienvenido/a, "+ usuario_activo.getNombre_completo() +"");
-		        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Ingresos.\n2. Gastos.\n3. Ahorros.\n4. Estadisticas y graficas.\n5. Regresar a la pantalla de inicio.");
+		        System.out.println("\n-------------------------------------------------------------------------");
+		    	System.out.println("\n[" + usuario_activo.getTipo_perfil().toUpperCase() + "]\nBienvenido/a, "+ usuario_activo.getNombre_completo() +"");
+		        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Ingresos.\n2. Gastos.\n3. Ahorros.\n4. Estadisticas.\n5. Regresar a la pantalla de inicio.");
 		        int decision_secundaria = 0;
 		        try {decision_secundaria = scanInt.nextInt();}
 		        catch(Exception e) {
 		            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 		            scanInt.nextLine();
 		            continue;}
-		        
+		        	        
 		        switch(decision_secundaria) {
 		        
 		            case 1:{//Ingresos
@@ -422,22 +419,24 @@ class GestorFinanciero {
 		            	menuAhorros(usuario_activo,scanString,scanInt,scanDouble);
 			            break;}
 		            	
-		            case 4:{//Estadisticas y graficas
-		                System.out.println("\n----------------------ESTADISTICAS Y GRAFICAS----------------------");
-		                /*
-		                 * Aquí se debe programar lo relacionado a las estadísticas y gráficas.
-		                 */
+		            case 4:{//Estadisticas
+		              	estadisticas(usuario_activo,scanInt);
 		                break;}
 		            
 		            case 5:{//Regresar a la pantalla de inicio
 		                
 		            	//Terminar el bucle del menú secundario
 		                menu_secundario = false;
-		                
+		                try {gestor.guardarRegistrosCSV(usuario_activo);} 
+						catch (IOException e) {
+							e.printStackTrace();}
 		                break;}
 		            
 					default:{//Opción no disponible (programación defensiva)
-						System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}
+						System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}
+				}
+			}
+		}
 	    
 	    else {//Si el código de identificación ingresado no se encuentra entre los códigos del gestor financiero
 			System.out.println("\nPERFIL NO ENCONTRADO.\nNo hay ningun perfil con el codigo de identificacion ingresado. Verifique que el ID sea correcto o que su perfil ya exista.");}}
@@ -451,6 +450,9 @@ class GestorFinanciero {
 	 * @return Este método no devuelve nada.
 	 */
 	public static void menuIngresos(Usuario usuario_activo, Scanner scanString, Scanner scanInt, Scanner scanDouble) {
+		
+		//Lista que contiene los meses del año
+		String[] meses = {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
 		
 		//Lista que contiene todos los registros que tiene el usuario activo
 		ArrayList<Registro> registros_activo = usuario_activo.getRegistros();
@@ -471,7 +473,8 @@ class GestorFinanciero {
 	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Registrar nuevo ingreso. \n2. Ver ingresos.\n3. Eliminar ingreso.\n4. Regresar.");
 	        
 	        int decision_ingresos;
-	        try {decision_ingresos = scanInt.nextInt();} 
+	        try {
+				decision_ingresos = scanInt.nextInt();} 
 	        catch(Exception e) {
 	            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
 	            scanInt.nextLine();
@@ -495,7 +498,8 @@ class GestorFinanciero {
 					//Iniciar ciclo para el try-catch y la validación del monto del ingreso
 					boolean validar_monto = true;
 					while(validar_monto) {
-						try {System.out.println("Ingrese el monto del ingreso (en Q): ");
+						try {
+							System.out.println("Ingrese el monto del ingreso (en Q): ");
 							monto = scanDouble.nextDouble();}
 						
 						catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
@@ -547,6 +551,7 @@ class GestorFinanciero {
 					Ingreso nuevo_ingreso = new Ingreso(monto,descripcion,mes,year,"Ingreso");
 					//Agregar el ingreso a la lista de ingresos del usuario activo
 					ingresos_activo.add(nuevo_ingreso);
+					registros_activo.add(nuevo_ingreso);
 					
 					//Notificar al usuario que se ha registrado el ingreso
 					System.out.println("\nINGRESO REGISTRADO. \nEl ingreso (" + descripcion + ") ha sido registrado exitosamente.");
@@ -564,7 +569,7 @@ class GestorFinanciero {
 	                	int num_ingreso = 1;
 	                	for (Ingreso ingreso : ingresos_activo) {
 	                        System.out.println("\n" + num_ingreso + ". " + ingreso.getDescripcion());
-	                        System.out.println("    En el mes " + ingreso.getMes() + " del year " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
+	                        System.out.println("    En " + meses[ingreso.getMes()-1] + " del " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
 	                        num_ingreso++;
 	                        total_ingresos+=ingreso.getMonto();}
 	                	
@@ -581,7 +586,7 @@ class GestorFinanciero {
 	                    int num_ingreso = 1;
 	                	for (Ingreso ingreso : ingresos_activo) {
 	                		System.out.println("\n" + num_ingreso + ". " + ingreso.getDescripcion());
-	                        System.out.println("    En el mes " + ingreso.getMes() + " del year " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
+	                        System.out.println("    En " + meses[ingreso.getMes()-1] + " del " + ingreso.getYear() + ". Monto: Q" + ingreso.getMonto());
 	                        num_ingreso++;}
 	                	System.out.println("\n" + num_ingreso + ". Cancelar operacion");
 	                
@@ -644,6 +649,9 @@ class GestorFinanciero {
 	 * @return Este método no devuelve nada.
 	 */
 	public static void menuGastos(Usuario usuario_activo, Scanner scanString, Scanner scanInt, Scanner scanDouble) {
+		
+		//Lista que contiene los meses del año
+		String[] meses = {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
 		
 		//Este array contiene las 9 categorías predefinidas para los gastos
 		String[] lista_categorias = {"Alimentos y bebidas","Vivienda","Transporte","Salud","Educacion","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"};
@@ -828,6 +836,7 @@ class GestorFinanciero {
 					Gasto nuevo_gasto = new Gasto(monto,descripcion,mes,year,"Gasto",categoria);
 					//Agregar el gasto a la lista de gastos del usuario activo
 					gastos_activo.add(nuevo_gasto);
+					registros_activo.add(nuevo_gasto);
 					
 					//Notificar al usuario que se ha registrado el gasto
 					System.out.println("\nGASTO REGISTRADO. \nEl gasto (" + descripcion + ") ha sido registrado exitosamente.");
@@ -845,7 +854,7 @@ class GestorFinanciero {
 	                	int num_gasto = 1;
 	                	for (Gasto gasto : gastos_activo) {
 	                        System.out.println("\n" + num_gasto + ". " + gasto.getDescripcion() + " [" + gasto.getCategoria() + "]");
-	                        System.out.println("    En el mes " + gasto.getMes() + " del year " + gasto.getYear() + ". Monto: Q" + gasto.getMonto());
+	                        System.out.println("    En " + meses[gasto.getMes()-1] + " del " + gasto.getYear() + ". Monto: Q" + gasto.getMonto());
 	                        num_gasto++;
 	                        total_gastos+=gasto.getMonto();}
 	                
@@ -862,7 +871,7 @@ class GestorFinanciero {
 	                    int num_gasto = 1;
 	                    for (Gasto gasto : gastos_activo) {
 	                    	System.out.println("\n" + num_gasto + ". " + gasto.getDescripcion() + " [" + gasto.getCategoria() + "]");
-	                        System.out.println("    En el mes " + gasto.getMes() + " del year " + gasto.getYear() + ". Monto: Q" + gasto.getMonto());
+	                        System.out.println("    En " + meses[gasto.getMes()-1] + " del " + gasto.getYear() + ". Monto: Q" + gasto.getMonto());
 	                        num_gasto++;}
 	                	System.out.println("\n" + num_gasto + ". Cancelar operacion");
 	                
@@ -926,6 +935,9 @@ class GestorFinanciero {
 	 */
 	public static void menuAhorros(Usuario usuario_activo, Scanner scanString, Scanner scanInt, Scanner scanDouble) {
 		
+		//Lista que contiene los meses del año
+		String[] meses = {"enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"};
+			
 		//Lista que contiene todos los registros que tiene el usuario activo
 		ArrayList<Registro> registros_activo = usuario_activo.getRegistros();
 		//Lista para almacenar los ahorros que tiene el usuario activo
@@ -1029,6 +1041,7 @@ class GestorFinanciero {
 	            
 	            case 2:{//Ver ahorros
 	                System.out.println("\n------------------------------VER AHORROS------------------------------");
+
 	                if (ahorros_activo.size()==0) {
 	                    System.out.println("\nOPCION NO DISPONIBLE.\nPor el momento, no hay ningun ahorro registrado.");}
 	                
@@ -1038,7 +1051,7 @@ class GestorFinanciero {
 	                	int num_ahorro = 1;
 	                	for (Ahorro ahorro : ahorros_activo) {
 	                        System.out.println("\n" + num_ahorro + ". " + ahorro.getDescripcion());
-	                        System.out.println("    En el mes " + ahorro.getMes() + " del year " + ahorro.getYear() + ". Monto: Q" + ahorro.getMonto());
+	                        System.out.println("    En " + meses[ahorro.getMes()-1] + " del " + ahorro.getYear() + ". Monto: Q" + ahorro.getMonto());
 	                        num_ahorro++;
 	                        total_ahorros+=ahorro.getMonto();}
 	                	
@@ -1055,7 +1068,7 @@ class GestorFinanciero {
 	                    int num_ahorro = 1;
 	                    for (Ahorro ahorro : ahorros_activo) {
 	                        System.out.println("\n" + num_ahorro + ". " + ahorro.getDescripcion());
-	                        System.out.println("    En el mes " + ahorro.getMes() + " del year " + ahorro.getYear() + ". Monto: Q" + ahorro.getMonto());
+	                        System.out.println("    En " + meses[ahorro.getMes()-1] + " del " + ahorro.getYear() + ". Monto: Q" + ahorro.getMonto());
 	                        num_ahorro++;}
 	                	System.out.println("\n" + num_ahorro + ". Cancelar operacion");
 	                
@@ -1088,8 +1101,7 @@ class GestorFinanciero {
 							else {//Si el usuario elige una opción que no está entre las opciones
 								System.out.println("\n**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.");}}}
 		                
-	                break;
-				}
+	                break;}
 	            
 	            case 4:{//Regresar
 	            	
@@ -1108,9 +1120,398 @@ class GestorFinanciero {
 	                break;}
 	            
 	            default:{//Opción no disponible (programación defensiva)
-	                System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");
-				}
-			}
-		}
-	}
+	                System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}
+	
+	/**
+	 * Todas las acciones disponibles para la generación de estadísticas y gráficas.
+	 * @param usuario_activo El usuario que desea visualizar las estadísticas y gráficas de su perfil.
+	 * @param scanInt El scanner para registrar los números enteros ingresados por el usuario.
+	 * @return Este método no devuelve nada.
+	 */
+	public static void estadisticas(Usuario usuario_activo, Scanner scanInt) {
+		
+		//Lista que contiene los meses del año
+		String[] meses = {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+		
+		if (usuario_activo.getRegistros().size()==0) {
+			System.out.println("\n-----------------------------ESTADISTICAS-----------------------------");
+			System.out.println("\nMENU NO DISPONIBLE.\nPor el momento, no hay ningun registro sobre el que generar las estadisticas.");}
+		
+		else {
+			boolean menu_estadisticasygraficas = true;
+		    while(menu_estadisticasygraficas) {
+		        System.out.println("\n-----------------------------ESTADISTICAS-----------------------------");
+		        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Calcular monto neto (especifico).\n2. Calcular monto neto (general).\n3. Analizar distribucion de porcentajes (especifico).\n4. Analizar distribucion de porcentajes (general).\n5. Regresar.");
+		        
+		        int decision_estadisticasygraficas;
+		        try {
+		        	decision_estadisticasygraficas = scanInt.nextInt();} 
+		        catch(Exception e) {
+		            System.out.println("\n**ERROR** La decision ingresada debe ser un numero.");
+		            scanInt.nextLine();
+		            continue;}
+		        
+		        switch(decision_estadisticasygraficas) 
+		        {
+			        case 1: {//Calcular monto neto (especifico): para el mes y año seleccionado por el usuario
+			        	
+			   	        System.out.println("\n--------------------CALCULAR MONTO NETO (ESPECIFICO)--------------------\n");
+			        	
+			   	        ArrayList<Integer> years_usuario = new ArrayList<Integer>();
+						for(Registro registro : usuario_activo.getRegistros()) {
+							years_usuario.add(registro.getYear());}
+			   	        
+			   	        int year = 0, num_mes = 0, mes;
+			        	
+			        	//Iniciar ciclo para el try-catch y la validación del año
+						boolean validar_year = true;
+						while(validar_year) {
+							try {System.out.println("Ingrese el year del que desea obtener la estadistica: ");
+								System.out.println("[Si desea cancelar la operacion, ingrese '9999']");
+								year = scanInt.nextInt();}
+							
+							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
+								System.out.println("**ERROR** El year debe ser un dato numerico entero.\n");
+								scanInt.nextLine();
+								continue;}
+							
+							if(year==9999) {//Si desea cancelar la operacion
+								//Salir del ciclo
+								validar_year = false;}
+							
+							else if(year>2023) {//Si el año ingresado es mayor al año actual
+								System.out.println("**ERROR** El year no puede ser mayor que el year actual (2023).\n");}
+							
+							else if(years_usuario.contains(year)){
+								//Salir del ciclo
+								validar_year = false;}
+							
+							else {
+								System.out.println("**ERROR** No cuenta con ningun registro en el year ingresado.\n");}}
+						
+						if(year==9999) {//Si seleccionó la opción de cancelar, regresarlo al menú
+							break;}
+						
+						ArrayList<Integer> meses_usuario = new ArrayList<Integer>();
+						for(Registro registro : usuario_activo.getRegistros()) {
+							if(registro.getYear()==year && meses_usuario.contains(registro.getMes())==false) {
+								meses_usuario.add(registro.getMes());}}
+			        				
+						//Iniciar ciclo para el try-catch y la validación del mes
+						boolean validar_mes = true;
+						while(validar_mes) {
+							try {System.out.println("Ingrese el numero que corresponda mes del year " + year + " del que desea obtener la estadistica: ");
+								for(int i=0;i<meses_usuario.size();i++) {//Enlistar los meses
+									System.out.println((i+1) + ". " + meses[meses_usuario.get(i)-1]);}
+								num_mes = scanInt.nextInt()-1;}//Se le resta 1 para obtener el índice del mes en la lista, ya que se le había sumado 1 al mostrarlos
+							
+							catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
+								System.out.println("**ERROR** La decision ingresada debe ser un numero.\n");
+								scanInt.nextLine();
+								continue;}
+							
+							if((num_mes>=0)&&(num_mes<meses_usuario.size())) {//Si el usuario elige una opción que sí está entre las opciones
+								validar_mes = false;} //Salir del ciclo
+							
+							else {//Si el usuario elige una opción que no está entre las opciones
+								System.out.println("**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.\n");}}
+						mes = meses_usuario.get(num_mes);//Registrar el mes seleccionado
+						
+						double ahorros = 0.0, gastos = 0.0, ingresos = 0.0;
+						for(Registro registro : usuario_activo.getRegistros()) {
+							if(registro.getYear()==year && registro.getMes()==mes) {
+								if(registro instanceof Ahorro) {
+									ahorros += registro.getMonto();}
+								
+								else if(registro instanceof Ingreso) {
+									ingresos += registro.getMonto();}
+								
+								else if(registro instanceof Gasto) {
+									gastos += registro.getMonto();}}}
+						
+						double monto_neto_mensual = ingresos + ahorros - gastos;
+						System.out.println("\n\tIngresos: Q" + ingresos + "\n\tGastos: Q" + gastos + "\n\tAhorros: Q" + ahorros);
+						System.out.println("\nDurante " + meses[mes-1].toLowerCase() +" del " + year + ", el monto neto (en Q) fue de: " + monto_neto_mensual);
+								        	
+			        	break;}
+			        
+			        case 2: {//Calcular monto neto (general)
+			        	
+			   	        System.out.println("\n--------------------CALCULAR MONTO NETO (GENERAL)--------------------\n");
+			        						
+						double ahorros = 0.0, gastos = 0.0, ingresos = 0.0;
+						for(Registro registro : usuario_activo.getRegistros()) {
+							
+							if(registro instanceof Ahorro) {
+								ahorros += registro.getMonto();}
+								
+							else if(registro instanceof Ingreso) {
+								ingresos += registro.getMonto();}
+								
+							else if(registro instanceof Gasto) {
+								gastos += registro.getMonto();}}
+						
+						double monto_neto_mensual = ingresos + ahorros - gastos;
+						System.out.println("\n\tIngresos: Q" + ingresos + "\n\tGastos: Q" + gastos + "\n\tAhorros: Q" + ahorros);
+						System.out.println("\nEntre todos sus registros, el monto neto (en Q) es de: " + monto_neto_mensual);
+								        	
+			        	break;}
+			        
+			        case 3: { //Analizar distribución de porcentajes (especifico): para el mes y año seleccionados por el usuario
+			        	System.out.println("\n-----------ANALIZAR DISTRIBUCION DE PORCENTAJES (ESPECIFICO)-----------\n");
+			        	     	
+			        	if(usuario_activo.getRegistros().size()==0) {
+			        		System.out.println("\nOPCION NO DISPONIBLE.\nDe momento, no hay ningun registro sobre el que generar este analisis.");}
+			        	
+			        	else if(usuario_activo.sumaPorcentajes()==0) {
+			        		System.out.println("\nOPCION NO DISPONIBLE.\nPara generar este analisis, debe haber distribuido primero los porcentajes de gastos entre las categorias.");}
+			        	
+			        	else {
+				        	ArrayList<Integer> years_usuario = new ArrayList<Integer>();
+							for(Registro registro : usuario_activo.getRegistros()) {
+								years_usuario.add(registro.getYear());}
+				   	        
+				   	        int year = 0, num_mes = 0, mes;
+				        	
+				        	//Iniciar ciclo para el try-catch y la validación del año
+							boolean validar_year = true;
+							while(validar_year) {
+								try {System.out.println("Ingrese el year del que desea obtener la estadistica: ");
+									System.out.println("[Si desea cancelar la operacion, ingrese '9999']");
+									year = scanInt.nextInt();}
+								
+								catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
+									System.out.println("**ERROR** El year debe ser un dato numerico entero.\n");
+									scanInt.nextLine();
+									continue;}
+								
+								if(year==9999) {//Si desea cancelar la operacion
+									//Salir del ciclo
+									validar_year = false;}
+								
+								else if(year>2023) {//Si el año ingresado es mayor al año actual
+									System.out.println("**ERROR** El year no puede ser mayor que el year actual (2023).\n");}
+								
+								else if(years_usuario.contains(year)){
+									//Salir del ciclo
+									validar_year = false;}
+								
+								else {
+									System.out.println("**ERROR** No cuenta con ningun registro en el year ingresado.\n");}}
+							
+							if(year==9999) {//Si seleccionó la opción de cancelar, regresarlo al menú
+								break;}
+							
+							ArrayList<Integer> meses_usuario = new ArrayList<Integer>();
+							for(Registro registro : usuario_activo.getRegistros()) {
+								if(registro.getYear()==year && meses_usuario.contains(registro.getMes())==false) {
+									meses_usuario.add(registro.getMes());}}
+				        				
+							//Iniciar ciclo para el try-catch y la validación del mes
+							boolean validar_mes = true;
+							while(validar_mes) {
+								try {System.out.println("Ingrese el numero que corresponda mes del year " + year + " del que desea obtener la estadistica: ");
+									for(int i=0;i<meses_usuario.size();i++) {//Enlistar los meses
+										System.out.println((i+1) + ". " + meses[meses_usuario.get(i)-1]);}
+									num_mes = scanInt.nextInt()-1;}//Se le resta 1 para obtener el índice del mes en la lista, ya que se le había sumado 1 al mostrarlos
+								
+								catch(Exception e) {//En caso de que el usuario ingrese texto en lugar de un número
+									System.out.println("**ERROR** La decision ingresada debe ser un numero.\n");
+									scanInt.nextLine();
+									continue;}
+								
+								if((num_mes>=0)&&(num_mes<meses_usuario.size())) {//Si el usuario elige una opción que sí está entre las opciones
+									validar_mes = false;} //Salir del ciclo
+								
+								else {//Si el usuario elige una opción que no está entre las opciones
+									System.out.println("**ERROR** El numero ingresado no se encuentra entre las opciones disponibles.\n");}}
+							mes = meses_usuario.get(num_mes);//Registrar el mes seleccionado
+				        	
+							boolean validar_ahorro_ingreso = false, validar_gasto = false;
+				        	for(Registro registro : usuario_activo.getRegistros()) {
+								if(registro.getYear()==year && registro.getMes()==mes) {
+									if(registro instanceof Ahorro) {
+										validar_ahorro_ingreso = true;}
+									
+									else if(registro instanceof Ingreso) {
+										validar_ahorro_ingreso = true;}
+									
+									else if(registro instanceof Gasto) {
+										validar_gasto = true;}}}
+							
+				        	if(validar_ahorro_ingreso&validar_gasto) {//Si hay por lo menos 1 gasto y 1 ahorro o ingreso
+				        		
+								double ahorros = 0.0, gastos = 0.0, ingresos = 0.0;
+								for(Registro registro : usuario_activo.getRegistros()) {
+									if(registro.getYear()==year && registro.getMes()==mes) {
+										if(registro instanceof Ahorro) {
+											ahorros += registro.getMonto();}
+										
+										else if(registro instanceof Ingreso) {
+											ingresos += registro.getMonto();}
+										
+										else if(registro instanceof Gasto) {
+											gastos += registro.getMonto();}}}
+								
+								//Este array contiene las 9 categorías predefinidas para los gastos
+								String[] lista_categorias = {"Alimentos y bebidas","Vivienda","Transporte","Salud","Educacion","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"};
+								
+								double monto_disponible = ahorros + ingresos;
+								
+								Double[] distribucion_ideal = 
+									{monto_disponible*usuario_activo.getPorcentajeAlimentosYBebidas(),
+									 monto_disponible*usuario_activo.getPorcentajeVivienda(),
+									 monto_disponible*usuario_activo.getPorcentajeTransporte(),
+									 monto_disponible*usuario_activo.getPorcentajeSalud(),
+									 monto_disponible*usuario_activo.getPorcentajeEducacion(),
+									 monto_disponible*usuario_activo.getPorcentajeEntretenimiento(),
+									 monto_disponible*usuario_activo.getPorcentajeRopaYCalzado(),
+									 monto_disponible*usuario_activo.getPorcentajeComunicaciones(),
+									 monto_disponible*usuario_activo.getPorcentajeOtros()};
+								
+								double montoAlimentosYBebidas = 0.0,montoVivienda = 0.0,montoTransporte = 0.0,montoSalud = 0.0,montoEducacion = 0.0,montoEntretenimiento = 0.0,montoRopaYCalzado = 0.0,montoComunicaciones = 0.0,montoOtros = 0.0;
+								for(Registro registro : usuario_activo.getRegistros()) {
+									if(registro instanceof Gasto) {
+										Gasto gasto = (Gasto) registro;
+										if(gasto.getCategoria().equals("Alimentos y bebidas")) {
+											montoAlimentosYBebidas += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Vivienda")) {
+											montoVivienda += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Transporte")) {
+											montoTransporte += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Salud")) {
+											montoSalud += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Educacion")) {
+											montoEducacion += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Entretenimiento")) {
+											montoEntretenimiento += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Ropa y calzado")) {
+											montoRopaYCalzado += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Comunicaciones")) {
+											montoComunicaciones += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Otros")) {
+											montoOtros += registro.getMonto();}}}
+								
+								Double[] distribucion_real = {montoAlimentosYBebidas,montoVivienda,montoTransporte,montoSalud,montoEducacion,montoEntretenimiento,montoRopaYCalzado,montoComunicaciones,montoOtros};
+								
+								System.out.println("\nDISTRIBUCION DE GASTOS IDEALES VS REALES");
+								System.out.println("En base a sus ingresos, gastos, ahorros y la distribucion de porcentajes, esta es la comparacion de los montos ideales \nde gastos para cada categoria con los gastos que en realidad se hicieron durante " + meses[mes-1].toLowerCase() + " del " + year + ":");
+								for(int i=0;i<lista_categorias.length;i++) {
+									System.out.println("\n\t" + (i+1) + ". [" + lista_categorias[i] + "] \n\tGasto ideal: Q" + distribucion_ideal[i] + ". Gasto real: Q" + distribucion_real[i] + ". \n\tCantidad en la que difieren: Q" + Math.abs(distribucion_ideal[i]-distribucion_real[i]));}
+								
+								double porcentaje_gastos = (gastos/monto_disponible)*100;
+								
+								DecimalFormat df = new DecimalFormat("#.##");
+							    String porcentajeFormateado = df.format(porcentaje_gastos);
+								
+								System.out.println("\nDurante " + meses[mes-1].toLowerCase() + " del " + year + ", el dinero que salio de su cuenta represento el " + porcentajeFormateado + "% del dinero que ingreso a su cuenta.");}
+							
+				        	else {
+				        		System.out.println("\nOPCION NO DISPONIBLE.\nPara generar este analisis, debe haber por lo menos 1 gasto y 1 ingreso/ahorro registrados en el mes seleccionado.");}}
+			        	
+			        	break;}
+			        
+			        case 4: { //Analizar distribución de porcentajes (general)
+			        	System.out.println("\n-------------ANALIZAR DISTRIBUCION DE PORCENTAJES (GENERAL)-------------\n");
+			        	     	
+			        	if(usuario_activo.getRegistros().size()==0) {
+			        		System.out.println("\nOPCION NO DISPONIBLE.\nDe momento, no hay ningun registro sobre el que generar este analisis.");}
+			        	
+			        	else if(usuario_activo.sumaPorcentajes()==0) {
+			        		System.out.println("\nOPCION NO DISPONIBLE.\nPara generar este analisis, debe haber distribuido primero los porcentajes de gastos entre las categorias.");}
+			        	
+			        	else {
+				        	
+							boolean validar_ahorro_ingreso = false, validar_gasto = false;
+				        	for(Registro registro : usuario_activo.getRegistros()) {
+								
+								if(registro instanceof Ahorro) {
+									validar_ahorro_ingreso = true;}
+								
+								else if(registro instanceof Ingreso) {
+									validar_ahorro_ingreso = true;}
+								
+								else if(registro instanceof Gasto) {
+									validar_gasto = true;}}
+							
+				        	if(validar_ahorro_ingreso&validar_gasto) {//Si hay por lo menos 1 gasto y 1 ahorro o ingreso
+				        		
+								double ahorros = 0.0, gastos = 0.0, ingresos = 0.0;
+								for(Registro registro : usuario_activo.getRegistros()) {
+									
+									if(registro instanceof Ahorro) {
+										ahorros += registro.getMonto();}
+									
+									else if(registro instanceof Ingreso) {
+										ingresos += registro.getMonto();}
+									
+									else if(registro instanceof Gasto) {
+										gastos += registro.getMonto();}}
+								
+								//Este array contiene las 9 categorías predefinidas para los gastos
+								String[] lista_categorias = {"Alimentos y bebidas","Vivienda","Transporte","Salud","Educacion","Entretenimiento","Ropa y calzado","Comunicaciones","Otros"};
+								
+								double monto_disponible = ahorros + ingresos;
+								
+								Double[] distribucion_ideal = 
+									{monto_disponible*usuario_activo.getPorcentajeAlimentosYBebidas(),
+									 monto_disponible*usuario_activo.getPorcentajeVivienda(),
+									 monto_disponible*usuario_activo.getPorcentajeTransporte(),
+									 monto_disponible*usuario_activo.getPorcentajeSalud(),
+									 monto_disponible*usuario_activo.getPorcentajeEducacion(),
+									 monto_disponible*usuario_activo.getPorcentajeEntretenimiento(),
+									 monto_disponible*usuario_activo.getPorcentajeRopaYCalzado(),
+									 monto_disponible*usuario_activo.getPorcentajeComunicaciones(),
+									 monto_disponible*usuario_activo.getPorcentajeOtros()};
+								
+								double montoAlimentosYBebidas = 0.0,montoVivienda = 0.0,montoTransporte = 0.0,montoSalud = 0.0,montoEducacion = 0.0,montoEntretenimiento = 0.0,montoRopaYCalzado = 0.0,montoComunicaciones = 0.0,montoOtros = 0.0;
+								for(Registro registro : usuario_activo.getRegistros()) {
+									if(registro instanceof Gasto) {
+										Gasto gasto = (Gasto) registro;
+										if(gasto.getCategoria().equals("Alimentos y bebidas")) {
+											montoAlimentosYBebidas += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Vivienda")) {
+											montoVivienda += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Transporte")) {
+											montoTransporte += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Salud")) {
+											montoSalud += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Educacion")) {
+											montoEducacion += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Entretenimiento")) {
+											montoEntretenimiento += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Ropa y calzado")) {
+											montoRopaYCalzado += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Comunicaciones")) {
+											montoComunicaciones += registro.getMonto();}
+										else if(gasto.getCategoria().equals("Otros")) {
+											montoOtros += registro.getMonto();}}}
+								
+								Double[] distribucion_real = {montoAlimentosYBebidas,montoVivienda,montoTransporte,montoSalud,montoEducacion,montoEntretenimiento,montoRopaYCalzado,montoComunicaciones,montoOtros};
+								
+								System.out.println("\nDISTRIBUCION DE GASTOS IDEALES VS REALES");
+								System.out.println("En base a sus ingresos, gastos, ahorros y la distribucion de porcentajes, esta es la comparacion de los montos ideales \nde gastos para cada categoria con los gastos que en realidad se hicieron:");
+								for(int i=0;i<lista_categorias.length;i++) {
+									System.out.println("\n\t" + (i+1) + ". [" + lista_categorias[i] + "] \n\tGasto ideal: Q" + distribucion_ideal[i] + ". Gasto real: Q" + distribucion_real[i] + ". \n\tCantidad en la que difieren: Q" + Math.abs(distribucion_ideal[i]-distribucion_real[i]));}
+								
+								double porcentaje_gastos = (gastos/monto_disponible)*100;
+								
+								DecimalFormat df = new DecimalFormat("#.##");
+							    String porcentajeFormateado = df.format(porcentaje_gastos);
+								
+								System.out.println("\nEntre todos sus registros, el dinero que ha salido de su cuenta represento el " + porcentajeFormateado + "% del dinero que ha ingresado a su cuenta.");}
+							
+				        	else {
+				        		System.out.println("\nOPCION NO DISPONIBLE.\nPara generar este analisis, debe haber por lo menos 1 gasto y 1 ingreso/ahorro registrados en su cuenta.");}}
+			        	
+			        	break;}
+			        
+			        case 5: {//Regresar
+			        	
+			        	//Terminar el bucle del menú de ahorros
+			        	menu_estadisticasygraficas = false;
+		            	break;}
+			        
+			        default:{//Opción no disponible (programación defensiva)
+		                System.out.println("\n**ERROR**\nEl numero ingresado no se encuentra entre las opciones disponibles.");}}}}}
 }
