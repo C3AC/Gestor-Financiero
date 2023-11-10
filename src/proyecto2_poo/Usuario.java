@@ -1,9 +1,9 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 3]
+Proyecto 2: Gestor Financiero [Fase 4]
 Creación: 06 de octubre del 2023
-Última modificación: 05 de noviembre del 2023*/
+Última modificación: 09 de noviembre del 2023*/
 
 package proyecto2_poo;
 
@@ -134,6 +134,13 @@ public class Usuario {
 	 */
 	public String getNombre_completo() {
 		return nombre + " " + apellido;}
+
+	/**
+	 * Obtiene el nombre completo del ususario (nombre y apellido separados por un guión bajo). 
+	 * @return El nombre completo del usuario.
+	 */
+	public String getNombreCompletoCSV() {
+		return nombre + apellido;}
 	
 	/**
 	 * Obtiene el tipo de perfil del usuario.
@@ -154,8 +161,7 @@ public class Usuario {
 	 * @return La lista de distribución de porcentajes de categorías. 
 	 */
 	public ArrayList<Double> getLista_porcentajes() {
-		return lista_porcentajes;
-	}
+		return lista_porcentajes;}
 
 	/**
 	 * Modifica la lista de registros financieros del usuario.
@@ -178,81 +184,98 @@ public class Usuario {
 	 */
 	public String getApellido() {
 		return apellido;}
-
+	
 	/**
-	 * Obtiene el sexo del usuario.
-	 * @return El sexo del usuario.
+	 * Formatea la información del usuario al formato reconocido por el archivo csv.
+	 * @return La información del usuario en el formato reconocido por el archivo csv.
 	 */
-	public String getSexo() {
-		return sexo;}
-
-	/**
-	 * Obtiene la edad del usuario.
-	 * @return La edad del usuario.
-	 */
-	public int getEdad() {
-		return edad;}
+	public String formatoCSV() {
+		
+		//Crear un array de 15 strings (cada uno corresponderá a un encabezado del csv de usuarios)
+		String[] datos = new String[15];
+						
+		//Guardar cada atributo en su posición correspondiente en el array (convertir los atributos numéricos a strings)
+		datos[0] = codigoIdentificacion;
+		datos[1] = nombre;
+		datos[2] = apellido;
+		datos[3] = sexo;
+		datos[4] = "" + edad;
+		datos[5] = tipo_perfil;
+		datos[6] = "" + lista_porcentajes.get(0);
+		datos[7] = "" + lista_porcentajes.get(1);
+		datos[8] = "" + lista_porcentajes.get(2);
+		datos[9] = "" + lista_porcentajes.get(3);
+		datos[10] = "" + lista_porcentajes.get(4);
+		datos[11] = "" + lista_porcentajes.get(5);
+		datos[12] = "" + lista_porcentajes.get(6);
+		datos[13] = "" + lista_porcentajes.get(7);
+		datos[14] = "" + lista_porcentajes.get(8);
+				
+		//Unificar todos los elementos del array en un solo string, separados por comas (,)
+		String linea_datos = String.join(",", datos);
+				
+		return linea_datos;}
 	
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Alimentos y bebidas'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Alimentos y bebidas'.
 	 */
 	public double getPorcentajeAlimentosYBebidas() {
-		return this.lista_porcentajes.get(0);}
+		return this.lista_porcentajes.get(0)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Vivienda'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Vivienda'.
 	 */
 	public double getPorcentajeVivienda() {
-		return this.lista_porcentajes.get(1);}
+		return this.lista_porcentajes.get(1)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Transporte'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Transporte'.
 	 */
 	public double getPorcentajeTransporte() {
-		return this.lista_porcentajes.get(2);}
+		return this.lista_porcentajes.get(2)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Salud'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Salud'.
 	 */
 	public double getPorcentajeSalud() {
-		return this.lista_porcentajes.get(3);}
+		return this.lista_porcentajes.get(3)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Educación'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Educación'.
 	 */
 	public double getPorcentajeEducacion() {
-		return this.lista_porcentajes.get(4);}
+		return this.lista_porcentajes.get(4)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Entretenimiento'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Entretenimiento'.
 	 */
 	public double getPorcentajeEntretenimiento() {
-		return this.lista_porcentajes.get(5);}
+		return this.lista_porcentajes.get(5)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Ropa y calzado'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Ropa y calzado'.
 	 */
 	public double getPorcentajeRopaYCalzado() {
-		return this.lista_porcentajes.get(6);}
+		return this.lista_porcentajes.get(6)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Comunicaciones'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Comunicaciones'.
 	 */
 	public double getPorcentajeComunicaciones() {
-		return this.lista_porcentajes.get(7);}
+		return this.lista_porcentajes.get(7)/100;}
 
 	/**
 	 * Obtiene el porcentaje asignado por el usuario a la categoría 'Otros'.
 	 * @return El porcentaje asignado por el usuario a la categoría 'Otros'.
 	 */
 	public double getPorcentajeOtros() {
-		return this.lista_porcentajes.get(8);}
+		return this.lista_porcentajes.get(8)/100;}
 }
