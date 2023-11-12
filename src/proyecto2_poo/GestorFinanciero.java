@@ -672,7 +672,7 @@ class GestorFinanciero {
 		boolean menu_gastos = true;
 	    while(menu_gastos) {
 	        System.out.println("\n--------------------------------GASTOS--------------------------------");
-	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Distributir porcentajes. \n2. Ver distribucion de porcentajes. \n3. Registrar nuevo gasto. \n4. Ver gastos.\n5. Eliminar gasto.\n6. Regresar.");
+	        System.out.println("\nIngrese el numero correspondiente a la opcion que desea realizar:\n1. Distribuir porcentajes. \n2. Ver distribucion de porcentajes. \n3. Registrar nuevo gasto. \n4. Ver gastos.\n5. Eliminar gasto.\n6. Regresar.");
 	        
 	        int decision_gastos;
 	        try {decision_gastos = scanInt.nextInt();} 
