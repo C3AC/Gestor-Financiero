@@ -7,9 +7,9 @@ Creación: 06 de octubre del 2023
 
 package proyecto2_poo;
 
+//Importar los paquetes/librerías que harán falta
 import java.io.IOException;
 import java.text.DecimalFormat;
-//Importar los paquetes/librerías que harán falta
 import java.util.ArrayList;
 import java.util.Scanner;
 
