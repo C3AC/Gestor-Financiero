@@ -1,7 +1,7 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 4]
+Proyecto 2: Gestor Financiero [Fase Final]
 Creación: 06 de octubre del 2023
 Última modificación: 09 de noviembre del 2023*/
 
@@ -27,6 +27,8 @@ public class Ingreso extends Registro {
 	public Ingreso(double monto, String descripcion, int mes, int year, String tipo_registro) {
 		super(monto, descripcion, mes, year,tipo_registro);}
 	
+	//[Métodos]
+
 	/**
 	 * Formatea la información del ingreso al formato reconocido por el archivo csv.
 	 * @return La información del ingreso en el formato reconocido por el archivo csv.

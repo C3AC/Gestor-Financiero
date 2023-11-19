@@ -1,7 +1,7 @@
 /*Grupo #5 (Marco Carbajal, Carlos Aldana, Carlos Angel y Diego Monroy)
 Guatemala, Universidad del Valle de Guatemala
 Programación Orientada a Objetos; Sección 60
-Proyecto 2: Gestor Financiero [Fase 4]
+Proyecto 2: Gestor Financiero [Fase Final]
 Creación: 06 de octubre del 2023
 Última modificación: 09 de noviembre del 2023*/
 
@@ -67,10 +67,6 @@ public class Usuario {
     public ArrayList<Double> lista_porcentajes;
 
     //[Constructor]
-    
-    public void setLista_porcentajes(ArrayList<Double> lista_porcentajes) {
-		this.lista_porcentajes = lista_porcentajes;
-	}
 
 	/**
 	* Constructor de la clase Usuario.
@@ -108,6 +104,13 @@ public class Usuario {
     	//Establecer el porcentaje indicado a la categoría
     	lista_porcentajes.set(indice_categoria, porcentaje);}
     
+	/**
+   	* Establece la lista de porcentajes del usuario.
+   	* @param lista_porcentajes La lista de porcentajes que se le desea establecer al usuario.
+   	* @return Este método no devuelve nada.
+   	*/
+	public void setLista_porcentajes(ArrayList<Double> lista_porcentajes) {
+		this.lista_porcentajes = lista_porcentajes;}
 
     /**
      * Sumar todos los valores de la lista de distribución de porcentajes de categorías.
